@@ -26,6 +26,14 @@ class APIData {
 
    static const String myAppointments = '${baseURL}api/my-appointments';
 
+   static const String appointmentDetail = '${baseURL}api/appointments';
+
+   //chat
+   static const String getChatData = '${baseURL}api/chats';
+   static const String sendMessage = '${baseURL}api/send-message';
+
+
+
 
 
 

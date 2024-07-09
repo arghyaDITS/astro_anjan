@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:astro_app/Appointment/appointmentDetailsScreen.dart';
 import 'package:astro_app/Appointment/createAppointment.dart';
 import 'package:astro_app/components/buttons.dart';
 import 'package:astro_app/components/util.dart';
@@ -99,6 +100,11 @@ class _AppoinmentsState extends State<Appoinments> {
                                       child: GestureDetector(
                                         onTap: () {
                                           print("ssdd");
+                                             Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AppointmentDetailsScreen(uid: data[index]['uid'])));
+                                          
                                           // Handle on tap if necessary
                                         },
                                         child: AnimatedContainer(

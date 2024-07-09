@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:astro_app/Appointment/paymentScreen.dart';
 import 'package:astro_app/Home/home.dart';
 import 'package:astro_app/services/apiServices.dart';
 import 'package:astro_app/services/servicesManeger.dart';
@@ -114,13 +115,14 @@ class _BookingScheduleState extends State<BookingSchedule> {
                     print('Start Time: ${_selectedSlot['start']}');
                     print('End Time: ${_selectedSlot['end']}');
                     print('Status: ${_selectedSlot['status']}');
-
-                    _saveSlot(
-                      context,
-                      slotNo: _selectedSlot['slot'],
-                      startTime: _selectedSlot['start'],
-                      endTime: _selectedSlot['end'],
-                    );
+                     Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => PhonePePayment()), (route) => false);
+                    // _saveSlot(
+                    //   context,
+                    //   slotNo: _selectedSlot['slot'],
+                    //   startTime: _selectedSlot['start'],
+                    //   endTime: _selectedSlot['end'],
+                    // );
                   }
                 },
                 child: Text('Save'),
@@ -203,7 +205,7 @@ class _BookingScheduleState extends State<BookingSchedule> {
       print("Booking successful");
 
       Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => Home()), (route) => false);
+          MaterialPageRoute(builder: (context) => PhonePePayment()), (route) => false);
     }
     setState(() {
       isLoading = false;

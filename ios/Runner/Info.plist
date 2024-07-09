@@ -22,6 +22,14 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>ppemerchantsdkv1</string>
+		<string>ppemerchantsdkv2</string>
+		<string>ppemerchantsdkv3</string>
+		<string>paytmmp</string>
+		<string>gpay</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
