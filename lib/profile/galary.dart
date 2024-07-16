@@ -1,3 +1,5 @@
+import 'package:astro_app/services/apiServices.dart';
+import 'package:astro_app/services/servicesManeger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:http/http.dart' as http;
@@ -26,21 +28,26 @@ class _GalleryScreenState extends State<GalleryScreen> {
     super.initState();
     isLoading = false;
     // Uncomment the following line to fetch images from an API
-    // fetchImages();
+     fetchImages();
   }
 
-  Future<void> fetchImages() async {
-    final response = await http.get(Uri.parse('YOUR_API_URL_HERE'));
+  fetchImages() async {
+     String url = APIData.getGalleyData;
+     print(url);
+   var res = await http.get(Uri.parse(url), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${ServiceManager.tokenID}',
+    });
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      print(res.body);
 
-    if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      setState(() {
-        imageUrls = data.map((item) => item['imageUrl'] as String).toList();
-        isLoading = false;
-      });
-    } else {
-      throw Exception('Failed to load images');
+      var data = jsonDecode(res.body);
+
+     // _streamController.add(data['data']['appointments']);
     }
+    isLoading = false;
+    return 'Success';
   }
 
   @override

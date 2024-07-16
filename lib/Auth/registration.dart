@@ -277,10 +277,12 @@ class _RegistrationState extends State<Registration> {
     print(res.body);
     if (res.statusCode == 200) {
       //   try{
-      ServiceManager().setUser('${data['user']['id']}');
+      ServiceManager().setUser('${data['userInfo']['id']}');
       ServiceManager().setToken('${data['token']}');
-      ServiceManager.userID = '${data['user']['id'].toString()}';
+      ServiceManager.userID = '${data['userInfo']['id'].toString()}';
       ServiceManager.tokenID = '${data['token']}';
+      print(ServiceManager.userID);
+      print(ServiceManager.userName);
       toastMessage(message: 'User registered and logged in successfully');
       // Navigator.pushAndRemoveUntil(
       //     context,
@@ -293,7 +295,7 @@ class _RegistrationState extends State<Registration> {
       //  toastMessage(message: '$e');
       // }
     } else if (res.statusCode == 422) {
-      print("sdsfsdffdsfhffidu78yhdjc");
+     
       setState(() {
         isLoading = false;
       });

@@ -9,7 +9,7 @@ class APIData {
 
   static const String userDetails = '${baseURL}api/user-info';
 
-  static const String updateUser = '${baseURL}api/update_user';
+  static const String updateUser = '${baseURL}api/update-profile';
   static const String getUserList = '${baseURL}api/get_user_list';
   static const String getStateAndDistrict='${baseURL}api/state-list';
 
@@ -31,6 +31,9 @@ class APIData {
    //chat
    static const String getChatData = '${baseURL}api/chats';
    static const String sendMessage = '${baseURL}api/send-message';
+
+   //gallery
+   static const String getGalleyData='${baseURL}api/galleries';
 
 
 

@@ -1,5 +1,6 @@
 import 'package:astro_app/Appointment/appoinments.dart';
 import 'package:astro_app/Home/dashboard.dart';
+import 'package:astro_app/Home/dashboardScreen.dart';
 import 'package:astro_app/Home/profile.dart';
 import 'package:astro_app/components/util.dart';
 import 'package:astro_app/services/servicesManeger.dart';
@@ -19,7 +20,7 @@ class _HomeState extends State<Home> {
   bool isLoading = false;
 
   static final List<Widget> _widgetOptions = <Widget>[
-    const AstrologyDashboard(),
+   AstrologyDashboardScreen(),// AstrologyDashboard(),
     const Appoinments(),
     const ProfileView()
  

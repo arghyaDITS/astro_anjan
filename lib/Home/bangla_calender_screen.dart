@@ -1,61 +1,93 @@
-// bengali_calendar_screen.dart
+// import 'package:bangla_utilities/bangla_utilities.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/widgets.dart';
 
-import 'package:astro_app/model/bengaliDates.dart';
-import 'package:flutter/material.dart';
 
-class BengaliCalendarScreen extends StatefulWidget {
-  @override
-  _BengaliCalendarScreenState createState() => _BengaliCalendarScreenState();
-}
+// class BanglaCalenderScreen extends StatefulWidget {
+//   @override
+//   _BanglaCalenderScreenState createState() => _BanglaCalenderScreenState();
+// }
 
-class _BengaliCalendarScreenState extends State<BengaliCalendarScreen> {
-  @override
-  Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    BengaliDate bengaliDate = gregorianToBengali(now);
+// class _BanglaCalenderScreenState extends State<BanglaCalenderScreen> {
+//   @override
+//   void initState() {
+//     super.initState();
+//   }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Bengali Calendar'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            "${bengaliDate.day} ${bengaliDate.month} ${bengaliDate.year}",
-            style: TextStyle(fontSize: 24),
-          ),
-          SizedBox(height: 20),
-          CalendarGrid(),
-        ],
-      ),
-    );
-  }
-}
-
-class CalendarGrid extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> days = [];
-    for (int i = 1; i <= 31; i++) {
-      days.add(
-        Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
-          ),
-          child: Text(
-            i.toString(),
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
-      );
-    }
-
-    return GridView.count(
-      crossAxisCount: 7,
-      shrinkWrap: true,
-      children: days,
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: const Text('Bangla Utilities Plugin example app'),
+//         ),
+//         body: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             Padding(
+//               padding: EdgeInsets.all(8.0),
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Text('Bangla date of 31st May 2020: '),
+//                   //
+//                   //
+//                   //day, month and year is optional parameter! Uses provide values or current date if not provided!
+//                   Text(
+//                       '${BanglaUtility.getBanglaDate(day: 31, month: 05, year: 2020)}'),
+//                 ],
+//               ),
+//             ),
+//             Padding(
+//               padding: EdgeInsets.all(8.0),
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Text('Bangla Month Name: '),
+//                   Text(
+//                       '${BanglaUtility.getBanglaMonthName(day: 31, month: 05, year: 2020)}'),
+//                 ],
+//               ),
+//             ),
+//             Padding(
+//               padding: EdgeInsets.all(8.0),
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Text('Bangla Weekday: '),
+//                   Text(
+//                       '${BanglaUtility.getBanglaWeekday(day: 31, month: 05, year: 2020)}'),
+//                 ],
+//               ),
+//             ),
+//             Padding(
+//               padding: EdgeInsets.all(8.0),
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Text('Bangla Season: '),
+//                   Text(
+//                       '${BanglaUtility.getBanglaSeason(day: 31, month: 05, year: 2020)}'),
+//                 ],
+//               ),
+//             ),
+//             Padding(
+//               padding: EdgeInsets.all(8.0),
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Text('1234 in Bangla: '),
+//                   //
+//                   //
+//                   //englishDigit is a Required parameter or else returns null
+//                   Text(
+//                       '${BanglaUtility.englishToBanglaDigit(englishDigit: 1234)}'),
+//                 ],
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

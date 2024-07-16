@@ -167,7 +167,7 @@ class _AppointmentDetailsScreenState extends State<AppointmentDetailsScreen> {
                         style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.teal),
                       ),
-                    isTimeValid==false?Container():  ElevatedButton.icon(
+                    isTimeValid==true?Container():  ElevatedButton.icon(
                         onPressed: () {
                          Navigator.push(
                     context,

@@ -6,8 +6,8 @@ class BanglaCalendarSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => BengaliCalendarScreen()));
+        // Navigator.push(context,
+        //     MaterialPageRoute(builder: (context) => BanglaCalenderScreen()));
       },
       child: Card(
         elevation: 4,

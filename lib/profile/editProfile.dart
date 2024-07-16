@@ -10,6 +10,7 @@ import 'package:astro_app/services/servicesManeger.dart';
 import 'package:astro_app/theme/colors.dart';
 import 'package:astro_app/theme/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
@@ -29,6 +30,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController whatsapp = TextEditingController();
   TextEditingController emergencyNumber = TextEditingController();
   TextEditingController presentAddress = TextEditingController();
+  TextEditingController occupation = TextEditingController();
 
   String profileURL = '';
   String roleValue = '';
@@ -39,15 +41,12 @@ class _EditProfileState extends State<EditProfile> {
   bool isAdmin = false;
   bool isLoading = true;
   bool uploading = false;
-  List<String> maritalList = [
-  'Married',
-  'Unmarried'
-];
-List<String> genderList = [
-  'Male',
-  'Female',
-  'Others',
-];
+  List<String> maritalList = ['Married', 'Unmarried'];
+  List<String> genderList = [
+    'Male',
+    'Female',
+    'Others',
+  ];
 
   final ImagePicker _picker = ImagePicker();
   File? _image;
@@ -116,20 +115,22 @@ List<String> genderList = [
     if (res.statusCode == 200) {
       print(res.body);
       var data = jsonDecode(res.body);
-      profileURL = '${data['user']['profile_image']}'??'';
-      name.text = '${data['user']['name']}';
-      email.text = '${data['user']['email']}';
-      mobile.text = data['user']['phone_no'] ?? '';
-      genderValue = data['user']['gender'] == 'female'
+      profileURL = '${data['data']['profile_image']}' ?? '';
+      name.text = '${data['data']['name']}';
+      email.text = '${data['data']['email']}';
+      mobile.text = data['data']['phone'] ?? '';
+      genderValue = data['data']['gender'] == 'Female'
           ? "Female"
-          : data['user']['gender'] == 'male'
+          : data['user']['gender'] == 'Male'
               ? "Male"
               : "Other";
-      maritalValue = data['user']['marital_status'] == 'married'
-          ? "Married"
-          : "Unmarried";
-         presentAddress.text=data['user']['present_address']??'';
-         dateOfBirth.text=data['user']['dob'];
+              occupation.text='${data['data']['occupation']}';
+              presentAddress.text='${data['data']['address']}';
+      // maritalValue = data['user']['marital_status'] == 'married'
+      //     ? "Married"
+      //     : "Unmarried";
+      //    presentAddress.text=data['user']['present_address']??'';
+      //    dateOfBirth.text=data['user']['dob'];
     }
     setState(() {
       isLoading = false;
@@ -153,22 +154,20 @@ List<String> genderList = [
       'Accept': 'application/json',
       'Authorization': 'Bearer ${ServiceManager.tokenID}',
     }, body: {
-      'user_id': ServiceManager.userID,
+      // 'user_id': ServiceManager.userID,
       'name': name.text,
-      'email': email.text,
-      'phone': mobile.text,
-      // 'profile_image': base64Image,
-      'dob': dateOfBirth.text,
+      // 'email': email.text,
+       'phone': mobile.text,
       'gender': genderValue,
-      'marital_status': maritalValue,
-      'present_address': presentAddress.text
+      'address': presentAddress.text,
+      'occupation': occupation.text
     });
     print(res.statusCode);
     if (res.statusCode == 200) {
       print(res.body);
       var data = jsonDecode(res.body);
       print(data.toString());
-       toastMessage(message: 'Profile Updated');
+      toastMessage(message: 'Profile Updated');
       Navigator.pop(context);
       // setState(() {
       //   isLoading = false;
@@ -185,14 +184,13 @@ List<String> genderList = [
       isLoading = true;
     });
     Map<String, String> formData = {
-      'user_id': ServiceManager.userID,
       'name': name.text,
-      'email': email.text,
-      'phone': mobile.text,
-      'dob': dateOfBirth.text,
+      // 'email': email.text,
+       'phone': mobile.text,
       'gender': genderValue,
-      'marital_status': maritalValue,
-      'present_address': presentAddress.text
+      'address': presentAddress.text,
+      'occupation': occupation.text
+     
     };
     String url = APIData.updateUser;
     print(url);
@@ -216,6 +214,7 @@ List<String> genderList = [
     var responseString = await response.stream.bytesToString();
 
     if (response.statusCode == 200) {
+    print(response.toString());
       setState(() {
         ServiceManager.profileURL = _image!.path;
       });
@@ -277,7 +276,7 @@ List<String> genderList = [
                             : CircleAvatar(
                                 radius: 70,
                                 backgroundImage:
-                                    NetworkImage(ServiceManager.profileURL),
+                                    NetworkImage(profileURL), 
                               ),
                   ),
                   Positioned(
@@ -317,55 +316,64 @@ List<String> genderList = [
                 controller: name,
               ),
               KTextField(
-                readOnly:  ServiceManager.roleAs == 'user'?true:false,
+                readOnly: true,//ServiceManager.roleAs == 'user' ? true : false,
                 title: 'Email',
                 textInputType: TextInputType.emailAddress,
                 controller: email,
+                
               ),
               KTextField(
                 title: 'Mobile Number',
-                 readOnly:  ServiceManager.roleAs == 'user'?true:false,
+                readOnly: ServiceManager.roleAs == 'user' ? true : false,
                 textInputType: TextInputType.number,
                 textLimit: 10,
                 controller: mobile,
               ),
-              // Padding(
-              //   padding:
-              //       const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12.0),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       kDropDownHintText('Gender'),
-              //       Container(
-              //         height: dropdownTextFieldHeight(),
-              //         width: MediaQuery.of(context).size.width,
-              //         decoration: dropTextFieldDesign(context),
-              //         child: DropdownButtonHideUnderline(
-              //           child: ButtonTheme(
-              //             alignedDropdown: true,
-              //             child: DropdownButton(
-              //               borderRadius: BorderRadius.circular(10.0),
-              //               value: genderValue != '' ? genderValue : null,
-              //               hint: const Text('Gender'),
-              //               items: genderList
-              //                   .map<DropdownMenuItem<String>>((String value) {
-              //                 return DropdownMenuItem<String>(
-              //                   value: value,
-              //                   child: Text(value),
-              //                 );
-              //               }).toList(),
-              //               onChanged: (String? newValue) {
-              //                 setState(() {
-              //                   genderValue = newValue!;
-              //                 });
-              //               },
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    kDropDownHintText('Gender'),
+                    Container(
+                      height: dropdownTextFieldHeight(),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: dropTextFieldDesign(context),
+                      child: DropdownButtonHideUnderline(
+                        child: ButtonTheme(
+                          alignedDropdown: true,
+                          child: DropdownButton(
+                            borderRadius: BorderRadius.circular(10.0),
+                            value: genderValue != '' ? genderValue : null,
+                            hint: const Text('Gender'),
+                            items: genderList
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                genderValue = newValue!;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              KTextField(
+                title: 'Address',
+                controller: presentAddress,
+              ),
+              KTextField(
+                title: 'occupation',
+                controller: occupation,
+              ),
               // Padding(
               //   padding:
               //       const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12.0),
@@ -413,10 +421,7 @@ List<String> genderList = [
               //     icon: const Icon(Icons.calendar_month),
               //   ),
               // ),
-              // KTextField(
-              //   title: 'Present Address',
-              //   controller: presentAddress,
-              // ),
+
               kBottomSpace(),
             ],
           ),

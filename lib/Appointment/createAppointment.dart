@@ -396,7 +396,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                                     saveAppointment();
                                   }
                                 },
-                                child: const Text('Save & Pay'),
+                                child: const Text('Save'),
                               ),
                       ],
                     ),

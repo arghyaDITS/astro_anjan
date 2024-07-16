@@ -3,6 +3,7 @@ import 'package:astro_app/Auth/login.dart';
 import 'package:astro_app/components/buttons.dart';
 import 'package:astro_app/components/util.dart';
 import 'package:astro_app/profile/galary.dart';
+import 'package:astro_app/profile/gallery.dart';
 import 'package:astro_app/services/servicesManeger.dart';
 import 'package:astro_app/theme/colors.dart';
 import 'package:astro_app/theme/style.dart';
@@ -142,7 +143,7 @@ class _ProfileViewState extends State<ProfileView> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => GalleryScreen()));
+                          builder: (context) => ImageGalleryScreen()));
                 }),
                 profileButton(Icons.info_outlined, 'About Us', () {
                   // Navigator.push(

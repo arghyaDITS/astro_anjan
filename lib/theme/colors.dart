@@ -36,12 +36,12 @@ class Constants {
   static Color darkBG = Colors.black;
 
   static ThemeData lightTheme = ThemeData(
-    backgroundColor: lightBG,
+    //backgroundColor: lightBG,
     primaryColor: lightPrimary,
     hintColor: lightAccent,
     scaffoldBackgroundColor: lightBG,
     textTheme: const TextTheme(
-      bodyText2: TextStyle(fontSize: 16, color: Colors.black, fontFamily: 'Barlow'),
+      bodyMedium: TextStyle(fontSize: 16, color: Colors.black, fontFamily: 'Barlow'),
     ),
     appBarTheme: AppBarTheme(
       foregroundColor: Colors.black,
@@ -69,7 +69,7 @@ class Constants {
 
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
-    backgroundColor: darkBG,
+    //backgroundColor: darkBG,
     primaryColor: darkPrimary,
     hintColor: darkAccent,
     scaffoldBackgroundColor: darkBG,
