@@ -49,7 +49,7 @@ class _AstrologyDashboardState extends State<AstrologyDashboard> with SingleTick
           child: Column(
             children: [
               BanglaCalendarSection(),
-              // AppointmentBookingSection(animation: _animation),
+               AppointmentBookingSection(animation: _animation),
               // ChatWithSastrijiSection(),
               // HoroscopeSection(),
               // AstrologicalTipsSection(),

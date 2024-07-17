@@ -72,8 +72,8 @@ class _HomeState extends State<Home> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.blueGrey,
-                        Colors.white
+                        Color.fromARGB(255, 200, 141, 255),
+                        Color.fromARGB(255, 235, 204, 250)
                       ], // Define your gradient colors
                     ),
                   ),

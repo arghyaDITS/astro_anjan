@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:astro_app/Appointment/checkoutScreen.dart';
 import 'package:astro_app/Appointment/paymentScreen.dart';
 import 'package:astro_app/Home/home.dart';
 import 'package:astro_app/services/apiServices.dart';
@@ -40,6 +41,7 @@ class _BookingScheduleState extends State<BookingSchedule> {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
+            SizedBox(height: 10,),
             ElevatedButton(
               onPressed: _selectDate,
               child: Text(
@@ -67,6 +69,8 @@ class _BookingScheduleState extends State<BookingSchedule> {
                             itemCount: data.length,
                             itemBuilder: (context, index) {
                               var slot = data[index];
+                              String startTime = DateFormat.jm().format(DateFormat("HH:mm:ss").parse(slot['start']));
+                              String endTime = DateFormat.jm().format(DateFormat("HH:mm:ss").parse(slot['end']));
                               return GestureDetector(
                                 onTap: () {
                                   if (slot['status'] == true) {
@@ -90,7 +94,8 @@ class _BookingScheduleState extends State<BookingSchedule> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      '${slot['start']} - ${slot['end']}',
+                                      '$startTime - $endTime',
+                                     // '${slot['start']} - ${slot['end']}',
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
@@ -116,7 +121,7 @@ class _BookingScheduleState extends State<BookingSchedule> {
                     print('End Time: ${_selectedSlot['end']}');
                     print('Status: ${_selectedSlot['status']}');
                      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => PhonePePayment()), (route) => false);
+          MaterialPageRoute(builder: (context) => CheckoutScreen()), (route) => false);
                     // _saveSlot(
                     //   context,
                     //   slotNo: _selectedSlot['slot'],

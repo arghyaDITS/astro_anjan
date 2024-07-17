@@ -37,7 +37,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
   final _areaController = TextEditingController();
   final _cityController = TextEditingController();
 
-  File? _selectedFile;
+   File? _selectedFile;
   final picker = ImagePicker();
   bool isLoading = false;
   List<String> states = [];
@@ -137,6 +137,11 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
       districts = stateDistrictMap[state] ?? [];
       selectedDistrict = null;
     });
+  }
+
+  String _getFileName(String path) {
+    List<String> parts = path.split('/');
+    return parts.last;
   }
 
   @override
@@ -386,7 +391,12 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                           child: const Text('Upload Document'),
                         ),
                         if (_selectedFile != null)
-                          Text('File selected: ${_selectedFile!.path}'),
+                          Text(
+                            '${_selectedFile!.path.isNotEmpty ? _getFileName(_selectedFile!.path) : ''}',
+                            style: kBoldStyle(
+                                color: const Color.fromARGB(255, 8, 65, 113)),
+                          ),
+                        // Text('File selected: ${_selectedFile!.path}'),
                         const SizedBox(height: 20),
                         isLoading == true
                             ? LoadingButton()
