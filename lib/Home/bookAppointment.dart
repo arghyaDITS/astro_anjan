@@ -1,3 +1,4 @@
+import 'package:astro_app/Appointment/createAppointment.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentBookingSection extends StatelessWidget {
@@ -48,6 +49,10 @@ class AppointmentBookingSection extends StatelessWidget {
                     shadowColor: Colors.deepPurpleAccent,
                   ),
                   onPressed: () {
+                     Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CreateAppointmentScreen()));
                     // Booking logic goes here
                   },
                   child: const Text(

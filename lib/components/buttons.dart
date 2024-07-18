@@ -49,9 +49,9 @@ class LoadingButton extends StatelessWidget {
 
 class LoginButton extends StatelessWidget {
 
-  String title, image;
+  String? title, image;
   Function() onClick;
-  LoginButton({required this.title, required this.image, required this.onClick,
+  LoginButton({required this.title,  this.image, required this.onClick,
     Key? key}) : super(key: key);
 
   @override
@@ -67,9 +67,9 @@ class LoginButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(title),
+          Text(title!),
           SizedBox(width: 10.0),
-          Image.asset(image, height: 25),
+          //Image.asset(image!, height: 25),
         ],
       ),
     );

@@ -169,10 +169,10 @@ class _AppointmentDetailsScreenState extends State<AppointmentDetailsScreen> {
                       ),
                     isTimeValid==false?Container():  ElevatedButton.icon(
                         onPressed: () {
-                         Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChatScreen(uid: widget.uid,)));
+                    //      Navigator.push(
+                    // context,
+                    // MaterialPageRoute(
+                    //     builder: (context) => ChatScreen(uid: widget.uid,)));
 
                           // Implement chat functionality
                         },
