@@ -1,5 +1,6 @@
 import 'package:astro_app/Appointment/appoinments.dart';
 import 'package:astro_app/Appointment/createAppointment.dart';
+import 'package:astro_app/Appointment/dummyPayment.dart';
 import 'package:astro_app/Home/banglaCalender.dart';
 import 'package:astro_app/Home/bookAppointment.dart';
 import 'package:astro_app/theme/style.dart';
@@ -22,7 +23,7 @@ class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>  wi
 
   final List<DashboardItem> dashboardItems = [
     DashboardItem('Calendar', FontAwesomeIcons.calendar, const Color.fromARGB(255, 146, 204, 252),BanglaCalendarSection()),
-    DashboardItem('Daily Horoscope', FontAwesomeIcons.star, const Color.fromARGB(255, 255, 243, 139),BanglaCalendarSection()),
+    DashboardItem('Daily Horoscope', FontAwesomeIcons.star, const Color.fromARGB(255, 255, 243, 139),MerchantApp()),
     DashboardItem('Appointments', FontAwesomeIcons.calendarCheck, const Color.fromARGB(255, 255, 138, 236),Appoinments()),
     DashboardItem('Book Appointments', FontAwesomeIcons.calendarPlus, const Color.fromARGB(255, 255, 203, 125),CreateAppointmentScreen()),
     DashboardItem('Get My Birth Chart', FontAwesomeIcons.chartBar, const Color.fromARGB(255, 246, 227, 250),BanglaCalendarSection()),

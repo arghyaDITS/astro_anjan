@@ -15,6 +15,10 @@ import 'package:http/http.dart' as http;
 import 'package:phonepe_payment_sdk/phonepe_payment_sdk.dart';
 
 class CheckoutScreen extends StatefulWidget {
+  String? amount;
+  String? appoId;
+  CheckoutScreen({super.key,this.amount,this.appoId});
+
   @override
   _CheckoutScreenState createState() => _CheckoutScreenState();
 }
@@ -26,24 +30,25 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   double _discount = 0.0;
 
   //static String environmentValue = "PRODUCTION"; // Change to your desired environment
-   static String environmentValue = "UAT_SIM"; //testing
+   static String environmentValue = "SANDBOX"; //testing
   //static String merchantId = "M17H35LOYHQ4"; //live
    static String merchantId = "PGTESTPAYUAT"; //testing
-  static String appId = "47513cc56a3e4c2e9b92bca8127133ce";
+  static String appId = "";
   //static String saltKey = "b0221ecd-6398-40ca-a3cb-103f1ecf2e47"; //live
    static String saltKey = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399"; //testkey
-  static bool enableLogging = true;
+  static bool enableLogging = false;
   //static String callback = "https://bharatvumi.com/";
   static String checksum = "";
   static String apiEndPoint = "/pg/v1/pay"; // Your API endpoint
-   //static String packageName = "com.phonepe.simulator"; // Replace with the package name of the UPI app
-  static String packageName = "com.phonepe.app";
+   static String packageName ="com.example.astro_app";//"com.example.phone_pe_demo";// "com.phonepe.simulator"; // Replace with the package name of the UPI app
+  //static String packageName = "com.phonepe.app";
+  static String callbackUrl="https://webhook.site/d09572c0-ac0d-4b7f-9dd5-df603ec6fd5e";
 
   void _applyCoupon() {
     setState(() {
       // Apply coupon logic here, for example:
       if (_couponController.text == 'DISCOUNT10') {
-        _discount = _totalAmount * 0.1; // 10% discount
+       // _discount = widget.amount! * 0.1; // 10% discount
       } else {
         _discount = 0.0;
       }
@@ -72,8 +77,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double gstAmount = _totalAmount-(_totalAmount*100)/118;//(_totalAmount - _discount) * (_gst / 100);
-    double finalAmount = (_totalAmount);// - _discount) + gstAmount;
+   // double gstAmount = _totalAmount-(_totalAmount*100)/118;//(_totalAmount - _discount) * (_gst / 100);
+    String? finalAmount = (widget.amount);// - _discount) + gstAmount;
 
     return Scaffold(
       appBar: AppBar(
@@ -85,6 +90,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+             Text('Appointment Id: ${widget.appoId}', style: TextStyle(fontSize: 18)),
+
             Card(
               elevation: 4,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -95,19 +102,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   children: [
                     const Text('Total Amount', style: TextStyle(fontSize: 18)),
                     const SizedBox(height: 4),
-                    Text('\$${_totalAmount.toStringAsFixed(2)}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                    Text('\$${widget.amount}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                     const Divider(height: 32),
-                    const Text('GST (18%)', style: TextStyle(fontSize: 18)),
-                    const SizedBox(height: 4),
-                    Text('\$${gstAmount.toStringAsFixed(2)}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                    const Divider(height: 32),
+                    // const Text('GST (18%)', style: TextStyle(fontSize: 18)),
+                    // const SizedBox(height: 4),
+                    // Text('\$${gstAmount.toStringAsFixed(2)}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                    // const Divider(height: 32),
                     const Text('Discount', style: TextStyle(fontSize: 18)),
                     const SizedBox(height: 4),
                     Text('\$${_discount.toStringAsFixed(2)}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                     const Divider(height: 32),
                     const Text('Final Amount', style: TextStyle(fontSize: 18)),
                     const SizedBox(height: 4),
-                    Text('\$${finalAmount.toStringAsFixed(2)}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                    Text('\$${finalAmount}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
@@ -236,18 +243,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
    void getCheckSum(num grandTotal, String selectedPackageName) {
     Map<String, dynamic> body = {
       "merchantId": merchantId,
-      "merchantTransactionId": generatedCode,
-      "merchantUserId": ServiceManager.userID,
-      "amount": grandTotal.toInt(),
-      "mobileNumber":'7003630456',
-      "callbackUrl": "",
+      "merchantTransactionId": "MT${generatedCode}",
+      "merchantUserId": "MU${ServiceManager.userID}",
+      "amount": 100,
+      "mobileNumber":'7003630457',
+      "callbackUrl": "https://webhook.site/d09572c0-ac0d-4b7f-9dd5-df603ec6fd5e",//"https://webhook.site/18b97022-5593-4007-8853-a0db128b43dc",
       "paymentInstrument": {
-        "type": "UPI_INTENT",
-        "targetApp": selectedPackageName,
+        "type": "PAY_PAGE",
+        //"targetApp": selectedPackageName,
       },
-      "deviceContext": {
-        "deviceOS": "ANDROID"
-      }
+      // "deviceContext": {
+      //   "deviceOS": "ANDROID"
+      // }
     };
 
     print(body);
@@ -270,10 +277,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     try {
       PhonePePaymentSdk.startTransaction(
           base64Body,
-          '',
+          callbackUrl,
           // callback,
         checksum,  selectedPackageName).then((response) => {
           print("Text phn pe"),
+          print("***********"),
+          print(response),
+          print("*********"),
                   setState(() {
           if (response != null) {
             String status = response['status'].toString();
@@ -530,6 +540,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       setState(() {
         result = 'PhonePe SDK Initialized - $val';
       });
+      print(result);
     }).catchError((error) {
       print(error);
       handleError(error);

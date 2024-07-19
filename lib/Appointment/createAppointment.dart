@@ -79,6 +79,18 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
       });
     }
   }
+    Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null && picked != TimeOfDay.now()) {
+      setState(() {
+        _tobController.text = picked.format(context);
+        print(_tobController.text);
+      });
+    }
+  }
 
   Future<void> _selectFile() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -225,6 +237,20 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                             return null;
                           },
                         ),
+                         SizedBox(
+                          height: 10,
+                        ),
+                        KTextField(
+                          title: 'Time of Birth',
+                          controller: _tobController,
+                          onClick:()=>_selectTime(context) ,
+                          validation: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your time of birth';
+                            }
+                            return null;
+                          },
+                        ),
                         SizedBox(
                           height: 10,
                         ),
@@ -343,19 +369,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                         //   ),
                         // ),
 
-                        SizedBox(
-                          height: 10,
-                        ),
-                        KTextField(
-                          title: 'Time of Birth',
-                          controller: _tobController,
-                          validation: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your time of birth';
-                            }
-                            return null;
-                          },
-                        ),
+                       
                         SizedBox(
                           height: 10,
                         ),
