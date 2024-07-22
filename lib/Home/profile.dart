@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:astro_app/Auth/login.dart';
+import 'package:astro_app/Home/contactUs.dart';
 import 'package:astro_app/components/buttons.dart';
 import 'package:astro_app/components/util.dart';
 import 'package:astro_app/profile/galary.dart';
@@ -134,10 +135,10 @@ class _ProfileViewState extends State<ProfileView> {
             child: Column(
               children: [
                 profileButton(Icons.call_outlined, 'Contact Us', () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => AboutUsScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ContactUsScreen()));
                 }),
                 profileButton(Icons.album, 'Gallery', () {
                   Navigator.push(

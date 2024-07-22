@@ -42,6 +42,7 @@ dependencies:
   crypto: ^3.0.3
   carousel_slider: ^4.0.0
   flutter_custom_tabs: ^1.2.1
+  webview_flutter: ^4.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
