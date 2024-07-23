@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:astro_app/Home/home.dart';
 import 'package:astro_app/components/buttons.dart';
+import 'package:astro_app/services/apiServices.dart';
+import 'package:astro_app/services/servicesManeger.dart';
 import 'package:astro_app/theme/style.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ContactUsScreen extends StatefulWidget {
   @override
@@ -9,10 +15,44 @@ class ContactUsScreen extends StatefulWidget {
 
 class _ContactUsScreenState extends State<ContactUsScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController nameCon = TextEditingController();
+
+  final TextEditingController emailCon = TextEditingController();
+
+  final TextEditingController phoneCon = TextEditingController();
+
+  final TextEditingController msgCon = TextEditingController();
   String _name = '';
   String _email = '';
   String _phone = '';
   String _message = '';
+  bool isLoading = false;
+  sendrequest() async {
+    isLoading = true;
+    String url = APIData.contactUs;
+    print(url);
+
+    var res = await http.post(Uri.parse(url), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${ServiceManager.tokenID}',
+    }, body: {
+      'name': nameCon.text,
+      'email': emailCon.text,
+      'phone': phoneCon.text,
+      'message': msgCon.text
+    });
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      print(res.body);
+       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+            builder: (context) => Home()), (route) => false);
+
+    //  var data = jsonDecode(res.body);
+    }
+    isLoading = false;
+    return 'Success';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +89,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       child: Column(
         children: [
           TextFormField(
+            controller: nameCon,
             decoration: InputDecoration(
               labelText: 'Name',
               border: OutlineInputBorder(),
@@ -64,6 +105,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           ),
           SizedBox(height: 20),
           TextFormField(
+            controller: emailCon,
             decoration: InputDecoration(
               labelText: 'Email',
               border: OutlineInputBorder(),
@@ -82,6 +124,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           ),
           SizedBox(height: 20),
           TextFormField(
+            controller: phoneCon,
             decoration: InputDecoration(
               labelText: 'Phone',
               border: OutlineInputBorder(),
@@ -97,6 +140,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           ),
           SizedBox(height: 20),
           TextFormField(
+            controller: msgCon,
             decoration: InputDecoration(
               labelText: 'Message',
               border: OutlineInputBorder(),
@@ -112,18 +156,19 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             onSaved: (value) => _message = value ?? '',
           ),
           SizedBox(height: 80),
-          KButton(title: "Submit", onClick: (){
-            if (_formKey.currentState?.validate() ?? false) {
-                _formKey.currentState?.save();
-                // Handle form submission logic
-                print('Name: $_name');
-                print('Email: $_email');
-                print('Phone: $_phone');
-                print('Message: $_message');
-              }
-          }),
-          
-          
+        isLoading==true?LoadingButton():  KButton(
+              title: "Submit",
+              onClick: () {
+                if (_formKey.currentState?.validate() ?? false) {
+                  _formKey.currentState?.save();
+                  sendrequest();
+                  // Handle form submission logic
+                  print('Name: $_name');
+                  print('Email: $_email');
+                  print('Phone: $_phone');
+                  print('Message: $_message');
+                }
+              }),
         ],
       ),
     );

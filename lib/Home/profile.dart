@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:astro_app/Auth/login.dart';
 import 'package:astro_app/Home/contactUs.dart';
+import 'package:astro_app/Home/terms.dart';
 import 'package:astro_app/components/buttons.dart';
 import 'package:astro_app/components/util.dart';
 import 'package:astro_app/profile/galary.dart';
@@ -147,25 +148,25 @@ class _ProfileViewState extends State<ProfileView> {
                           builder: (context) => ImageGalleryScreen()));
                 }),
                 profileButton(Icons.info_outlined, 'About Us', () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => AboutUsScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AboutUsScreen()));
                 }),
                 profileButton(Icons.receipt_long_outlined, 'Terms and Condition',
                     () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) =>
-                  //             TermsAndConditionsScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              AboutUsScreen()));
                 }),
                 profileButton(Icons.receipt_long_outlined, 'Privacy Policy', () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) =>
-                  //             TermsAndConditionsScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              AboutUsScreen()));
                 }),
               ],
             ),

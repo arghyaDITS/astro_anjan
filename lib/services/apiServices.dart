@@ -35,6 +35,23 @@ class APIData {
    //gallery
    static const String getGalleyData='${baseURL}api/galleries';
 
+   //chembers
+   static const String chembersData='${baseURL}api/chambers';
+   //achievements
+   static const String achievements='${baseURL}api/achievements';
+
+
+   //rsahifal
+   static const String rashiFals='${baseURL}api/rashifals';
+
+   static const String rashiDetails='${baseURL}api/rashifal-info';
+
+   //contact us
+   static const String contactUs='${baseURL}api/contact-request';
+
+
+
+
 
 
 

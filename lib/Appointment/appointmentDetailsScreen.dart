@@ -1,6 +1,7 @@
 import 'package:astro_app/chat/chatscreen.dart';
 import 'package:astro_app/services/apiServices.dart';
 import 'package:astro_app/services/servicesManeger.dart';
+import 'package:astro_app/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -114,78 +115,81 @@ class _AppointmentDetailsScreenState extends State<AppointmentDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Appointment Details'),
-        backgroundColor: Colors.teal,
+        backgroundColor: const Color.fromARGB(255, 234, 146, 250),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AnimatedContainer(
-                    duration: const Duration(seconds: 1),
-                    curve: Curves.easeInOut,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          : Container(
+            decoration: kBackgroundDesign(context),
+            child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(seconds: 1),
+                      curve: Curves.easeInOut,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Name: ${appointmentDetails!['name']}',
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 8),
+                          Text('Email: ${appointmentDetails!['email']}'),
+                          const SizedBox(height: 8),
+                          Text('Phone: ${appointmentDetails!['phone']}'),
+                          const SizedBox(height: 8),
+                          Text(
+                              'Booking Date: ${appointmentDetails!['booking_date']}'),
+                          const SizedBox(height: 8),
+                          Text(
+                              'Slot: ${appointmentDetails!['slot_start']} - ${appointmentDetails!['slot_end']}'),
+                          const SizedBox(height: 8),
+                          Text('Amount: ${appointmentDetails!['amount']}'),
+                          const SizedBox(height: 8),
+                          Text(
+                              'Payment Status: ${appointmentDetails!['pay_status']}'),
+                          const SizedBox(height: 8),
+                          Text('Status: ${appointmentDetails!['status']}'),
+                        ],
+                      ),
+                    ),
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
-                          'Name: ${appointmentDetails!['name']}',
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                       isTimeValid==false?Container():    ElevatedButton.icon(
+                          onPressed: () {
+                            // Implement share link functionality
+                          },
+                          icon: const Icon(Icons.share),
+                          label: const Text('Request Video call'),
+                          style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.teal),
                         ),
-                        const SizedBox(height: 8),
-                        Text('Email: ${appointmentDetails!['email']}'),
-                        const SizedBox(height: 8),
-                        Text('Phone: ${appointmentDetails!['phone']}'),
-                        const SizedBox(height: 8),
-                        Text(
-                            'Booking Date: ${appointmentDetails!['booking_date']}'),
-                        const SizedBox(height: 8),
-                        Text(
-                            'Slot: ${appointmentDetails!['slot_start']} - ${appointmentDetails!['slot_end']}'),
-                        const SizedBox(height: 8),
-                        Text('Amount: ${appointmentDetails!['amount']}'),
-                        const SizedBox(height: 8),
-                        Text(
-                            'Payment Status: ${appointmentDetails!['pay_status']}'),
-                        const SizedBox(height: 8),
-                        Text('Status: ${appointmentDetails!['status']}'),
+                      isTimeValid==false?Container():  ElevatedButton.icon(
+                          onPressed: () {
+                           Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChatScreen(uid: widget.uid,)));
+            
+                            // Implement chat functionality
+                          },
+                          icon: const FaIcon(FontAwesomeIcons.comments),
+                          label: const Text('Chat'),
+                          style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.teal),
+                        ),
                       ],
                     ),
-                  ),
-                  const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                     isTimeValid==false?Container():    ElevatedButton.icon(
-                        onPressed: () {
-                          // Implement share link functionality
-                        },
-                        icon: const Icon(Icons.share),
-                        label: const Text('Request Video call'),
-                        style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.teal),
-                      ),
-                    isTimeValid==false?Container():  ElevatedButton.icon(
-                        onPressed: () {
-                         Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChatScreen(uid: widget.uid,)));
-
-                          // Implement chat functionality
-                        },
-                        icon: const FaIcon(FontAwesomeIcons.comments),
-                        label: const Text('Chat'),
-                        style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.teal),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+          ),
     );
   }
 }

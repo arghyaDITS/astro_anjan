@@ -43,6 +43,8 @@ dependencies:
   carousel_slider: ^4.0.0
   flutter_custom_tabs: ^1.2.1
   webview_flutter: ^4.0.0
+  cached_network_image: ^3.3.1
+  animate_do: ^2.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
