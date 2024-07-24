@@ -46,7 +46,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     if (res.statusCode == 200) {
       print(res.body);
        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-            builder: (context) => Home()), (route) => false);
+            builder: (context) => const Home()), (route) => false);
 
     //  var data = jsonDecode(res.body);
     }
@@ -58,8 +58,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contact Us'),
-        backgroundColor: const Color.fromARGB(255, 177, 142, 236),
+        title: const Text('Contact Us'),
+        
       ),
       body: Container(
         decoration: kBackgroundDesign(context),
@@ -69,11 +69,11 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Text(
+                const Text(
                   'We would love to hear from you!',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildContactForm(),
               ],
             ),
@@ -90,9 +90,11 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
         children: [
           TextFormField(
             controller: nameCon,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Name',
               border: OutlineInputBorder(),
+              filled: true,
+              fillColor: Colors.white,
               prefixIcon: Icon(Icons.person),
             ),
             validator: (value) {
@@ -103,12 +105,14 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             },
             onSaved: (value) => _name = value ?? '',
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           TextFormField(
             controller: emailCon,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Email',
               border: OutlineInputBorder(),
+              filled: true,
+              fillColor: Colors.white,
               prefixIcon: Icon(Icons.email),
             ),
             validator: (value) {
@@ -122,12 +126,14 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             },
             onSaved: (value) => _email = value ?? '',
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           TextFormField(
             controller: phoneCon,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Phone',
               border: OutlineInputBorder(),
+              filled: true,
+              fillColor: Colors.white,
               prefixIcon: Icon(Icons.phone),
             ),
             validator: (value) {
@@ -138,11 +144,13 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             },
             onSaved: (value) => _phone = value ?? '',
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           TextFormField(
             controller: msgCon,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Message',
+              filled: true,
+              fillColor: Colors.white,
               border: OutlineInputBorder(),
               prefixIcon: Icon(Icons.message),
             ),
@@ -155,7 +163,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             },
             onSaved: (value) => _message = value ?? '',
           ),
-          SizedBox(height: 80),
+          const SizedBox(height: 80),
         isLoading==true?LoadingButton():  KButton(
               title: "Submit",
               onClick: () {

@@ -1,6 +1,7 @@
 import 'package:astro_app/Appointment/appoinments.dart';
 import 'package:astro_app/Appointment/createAppointment.dart';
-import 'package:astro_app/Appointment/dummyPayment.dart';
+import 'package:astro_app/Home/services.dart';
+import 'package:astro_app/dummyPayments/dummyPayment.dart';
 import 'package:astro_app/Home/achievements.dart';
 import 'package:astro_app/Home/banglaCalender.dart';
 import 'package:astro_app/Home/bookAppointment.dart';
@@ -19,9 +20,11 @@ class AstrologyDashboardScreen extends StatefulWidget {
 
 class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>  with SingleTickerProviderStateMixin{
   final List<String> carouselImages = [
-    'https:\/\/thecityofjoy.in\/anjan\/public\/gallery\/gallery_image-1721045483.jpeg',
-    'https:\/\/thecityofjoy.in\/anjan\/public\/gallery\/gallery_image-1721045492.jpeg',
-    'https:\/\/thecityofjoy.in\/anjan\/public\/gallery\/gallery_image-1721047023.jpeg',
+    'https://anjanshastri.com/wp-content/uploads/2023/02/Dr.-Anjan-Shastri-2.png',
+    'https://anjanshastri.com/wp-content/uploads/2024/06/2-website-banner.jpg',
+    'https://anjanshastri.com/wp-content/uploads/2023/02/Untitled-design-1.png',
+    'https://anjanshastri.com/wp-content/uploads/2022/03/anjansastri-website.png',
+    'https://anjanshastri.com/wp-content/uploads/2021/03/anjandabanner1_93.png'
   ];
 
   final List<DashboardItem> dashboardItems = [
@@ -31,6 +34,8 @@ class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>  wi
     DashboardItem('Book Appointments', FontAwesomeIcons.calendarPlus, const Color.fromARGB(255, 255, 203, 125),CreateAppointmentScreen()),
     DashboardItem('Chembers', FontAwesomeIcons.house, const Color.fromARGB(255, 246, 227, 250),LocationsScreen()),
     DashboardItem('Achivements', FontAwesomeIcons.award, const Color.fromARGB(255, 246, 227, 250),CertificateScreen()),
+    DashboardItem('Services', FontAwesomeIcons.servicestack, const Color.fromARGB(255, 246, 227, 250),ServiceScreen()),
+
     // Add more items as needed
   ];
     late AnimationController _controller;
@@ -82,7 +87,7 @@ class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>  wi
   Widget _buildCarousel() {
     return CarouselSlider(
       options: CarouselOptions(
-        height: 200.0,
+        height: 150.0,
         autoPlay: true,
         enlargeCenterPage: true,
         enableInfiniteScroll: true,
@@ -100,12 +105,13 @@ class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>  wi
                 );
               },
               child: Container(
+                height: 450,
                 margin: const EdgeInsets.symmetric(horizontal: 5.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   image: DecorationImage(
                     image: NetworkImage(imageUrl),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                   ),
                 ),
               ),
@@ -187,7 +193,7 @@ class DetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detail Screen'),
+      //  title: const Text('Detail Screen'),
       ),
       body: Center(
         child: Image.network(imageUrl),

@@ -45,9 +45,18 @@ class APIData {
    static const String rashiFals='${baseURL}api/rashifals';
 
    static const String rashiDetails='${baseURL}api/rashifal-info';
+   //Services
+      static const String getServices='${baseURL}api/services';
+      static const String getServiceDetail='${baseURL}api/posts-info';
+
+
 
    //contact us
    static const String contactUs='${baseURL}api/contact-request';
+
+   //notifications
+   static const String getNotifications='${baseURL}api/notifications';
+
 
 
 

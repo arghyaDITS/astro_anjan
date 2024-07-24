@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:astro_app/Appointment/checkOutScreen2.dart';
 import 'package:astro_app/Appointment/checkoutScreen.dart';
-import 'package:astro_app/Appointment/paymentScreen.dart';
+import 'package:astro_app/Home/chembers.dart';
+import 'package:astro_app/dummyPayments/paymentScreen.dart';
 import 'package:astro_app/Home/home.dart';
 import 'package:astro_app/services/apiServices.dart';
 import 'package:astro_app/services/servicesManeger.dart';
@@ -25,10 +27,31 @@ class _BookingScheduleState extends State<BookingSchedule> {
   final StreamController _streamController = StreamController();
   dynamic _selectedSlot;
   String location='';
+  late Future<List<Location>> locations;
 
   @override
   void initState() {
     super.initState();
+    locations = fetchLocations();
+  }
+   Future<List<Location>> fetchLocations() async {
+    String url = APIData.chembersData;
+    print(url);
+
+    var response = await http.get(Uri.parse(url), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${ServiceManager.tokenID}',
+    });
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      List<dynamic> data = jsonResponse['data'];
+      return data.map((json) => Location.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load locations');
+    }
   }
 
   @override
@@ -224,7 +247,7 @@ class _BookingScheduleState extends State<BookingSchedule> {
       print("Booking successful");
 
   Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => CheckoutScreen(
+          MaterialPageRoute(builder: (context) => CheckoutScreen2(
             appoId: decodedResponse['appointment_id'],
             amount: decodedResponse['amount'],
           )), (route) => false);

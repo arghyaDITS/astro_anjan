@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:astro_app/Appointment/payPage.dart';
 import 'package:astro_app/components/buttons.dart';
 import 'package:astro_app/components/util.dart';
 import 'package:astro_app/services/apiServices.dart';
@@ -199,11 +200,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                               title: 'Online Payment',
                                              // image: 'images/online.png',
                                               onClick: (){
-                                                getCheckSum(100, packageName);
+                                                  Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => const PhonePay()), (route) => false);
+                                             
+                                             
+                                             //---------------------------------
+                                              // getCheckSum(100, packageName);
                                                 // getWebCheckSum(grandTotal*100);
 
                                                 // generateCode();
                                                 // makePhonePePayment(context, 100);
+                                                //------------------------------------
                                               },
                                             ),
                                           ],
