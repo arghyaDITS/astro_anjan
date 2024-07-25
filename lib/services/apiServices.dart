@@ -24,6 +24,10 @@ class APIData {
   static const String getAvailableSlot = '${baseURL}api/booking-schedule';
    static const String bookSlot = '${baseURL}api/booked-appointment';
 
+   static const String payment = '${baseURL}api/pay-response';
+
+
+
    static const String myAppointments = '${baseURL}api/my-appointments';
 
    static const String appointmentDetail = '${baseURL}api/appointments';

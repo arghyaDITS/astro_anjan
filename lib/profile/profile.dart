@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:astro_app/Auth/login.dart';
-import 'package:astro_app/Home/contactUs.dart';
-import 'package:astro_app/Home/terms.dart';
+import 'package:astro_app/profile/contactUs.dart';
+import 'package:astro_app/profile/terms.dart';
 import 'package:astro_app/components/buttons.dart';
 import 'package:astro_app/components/util.dart';
 import 'package:astro_app/profile/galary.dart';
@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shimmer/shimmer.dart';
 
-import '../profile/editProfile.dart';
+import 'editProfile.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});

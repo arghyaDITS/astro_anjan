@@ -15,10 +15,12 @@ import 'package:flutter/animation.dart';
 
 class AstrologyDashboardScreen extends StatefulWidget {
   @override
-  State<AstrologyDashboardScreen> createState() => _AstrologyDashboardScreenState();
+  State<AstrologyDashboardScreen> createState() =>
+      _AstrologyDashboardScreenState();
 }
 
-class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>  with SingleTickerProviderStateMixin{
+class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>
+    with SingleTickerProviderStateMixin {
   final List<String> carouselImages = [
     'https://anjanshastri.com/wp-content/uploads/2023/02/Dr.-Anjan-Shastri-2.png',
     'https://anjanshastri.com/wp-content/uploads/2024/06/2-website-banner.jpg',
@@ -28,23 +30,30 @@ class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>  wi
   ];
 
   final List<DashboardItem> dashboardItems = [
-    DashboardItem('Calendar', FontAwesomeIcons.calendar, const Color.fromARGB(255, 146, 204, 252),BanglaCalendarSection()),
-    DashboardItem('Rashifal', FontAwesomeIcons.star, const Color.fromARGB(255, 255, 243, 139),RashiGridScreen()),
-    DashboardItem('Appointments', FontAwesomeIcons.calendarCheck, const Color.fromARGB(255, 255, 138, 236),Appoinments()),
-    DashboardItem('Book Appointments', FontAwesomeIcons.calendarPlus, const Color.fromARGB(255, 255, 203, 125),CreateAppointmentScreen()),
-    DashboardItem('Chembers', FontAwesomeIcons.house, const Color.fromARGB(255, 246, 227, 250),LocationsScreen()),
-    DashboardItem('Achivements', FontAwesomeIcons.award, const Color.fromARGB(255, 246, 227, 250),CertificateScreen()),
-    DashboardItem('Services', FontAwesomeIcons.servicestack, const Color.fromARGB(255, 246, 227, 250),ServiceScreen()),
+    DashboardItem('Calendar', FontAwesomeIcons.calendar,
+        const Color.fromARGB(255, 146, 204, 252), BanglaCalendarSection()),
+    DashboardItem('Rashifal', FontAwesomeIcons.star,
+        const Color.fromARGB(255, 255, 243, 139), RashiGridScreen()),
+    DashboardItem('Appointments', FontAwesomeIcons.calendarCheck,
+        const Color.fromARGB(255, 255, 138, 236), Appoinments()),
+    DashboardItem('Book Appointments', FontAwesomeIcons.calendarPlus,
+        const Color.fromARGB(255, 255, 203, 125), CreateAppointmentScreen()),
+    DashboardItem('Chembers', FontAwesomeIcons.house,
+        const Color.fromARGB(255, 246, 227, 250), LocationsScreen()),
+    DashboardItem('Achivements', FontAwesomeIcons.award,
+        const Color.fromARGB(255, 246, 227, 250), CertificateScreen()),
+    DashboardItem('Services', FontAwesomeIcons.servicestack,
+        const Color.fromARGB(255, 246, 227, 250), ServiceScreen()),
 
     // Add more items as needed
   ];
-    late AnimationController _controller;
+  late AnimationController _controller;
   late Animation<double> _animation;
-    @override
+  @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds:500 ),
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     )..repeat(reverse: true);
     _animation = CurvedAnimation(
@@ -62,16 +71,19 @@ class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>  wi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
       body: Container(
         height: MediaQuery.of(context).size.height,
         decoration: kBackgroundDesign(context),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 10,),
-               AppointmentBookingSection(animation: _animation),
-               SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
+              AppointmentBookingSection(animation: _animation),
+              SizedBox(
+                height: 10,
+              ),
               _buildCarousel(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -101,7 +113,8 @@ class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>  wi
                 // Handle image tap
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DetailScreen(imageUrl)),
+                  MaterialPageRoute(
+                      builder: (context) => DetailScreen(imageUrl)),
                 );
               },
               child: Container(
@@ -134,23 +147,76 @@ class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>  wi
       ),
       itemCount: dashboardItems.length,
       itemBuilder: (context, index) {
-        return _buildGridItem(context,dashboardItems[index]);
+        return _buildGridItem(context, dashboardItems[index]);
       },
     );
   }
+  Widget _buildGridItem(BuildContext context, DashboardItem item) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => item.route));
+    },
+    child: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [item.color.withOpacity(0.7), item.color],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20.0),
+        boxShadow: [
+          BoxShadow(
+            color: item.color.withOpacity(0.5),
+            blurRadius: 10.0,
+            offset: Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            right: -20,
+            top: -20,
+            child: Icon(
+              item.icon,
+              size: 100.0,
+              color: Colors.white.withOpacity(0.1),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                child: FaIcon(item.icon, size: 50.0, color: Colors.white),
+              ),
+              const SizedBox(height: 10.0),
+              Text(
+                item.title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
-  Widget _buildGridItem(context,DashboardItem item) {
+
+  Widget _buildGridItem2(context, DashboardItem item) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>item.route));
-        // Handle card tap
-        // Navigate to corresponding screen
+            context, MaterialPageRoute(builder: (context) => item.route));
       },
       child: Container(
-       
         decoration: BoxDecoration(
           color: item.color,
           borderRadius: BorderRadius.circular(10.0),
@@ -193,8 +259,8 @@ class DetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      //  title: const Text('Detail Screen'),
-      ),
+          //  title: const Text('Detail Screen'),
+          ),
       body: Center(
         child: Image.network(imageUrl),
       ),

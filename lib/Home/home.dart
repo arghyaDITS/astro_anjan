@@ -1,7 +1,6 @@
 import 'package:astro_app/Appointment/appoinments.dart';
-import 'package:astro_app/Home/dashboard.dart';
 import 'package:astro_app/Home/dashboardScreen.dart';
-import 'package:astro_app/Home/profile.dart';
+import 'package:astro_app/profile/profile.dart';
 import 'package:astro_app/components/util.dart';
 import 'package:astro_app/services/servicesManeger.dart';
 import 'package:astro_app/theme/colors.dart';

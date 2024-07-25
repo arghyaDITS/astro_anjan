@@ -1,3 +1,4 @@
+import 'package:astro_app/model/chembarLocation.dart';
 import 'package:astro_app/services/apiServices.dart';
 import 'package:astro_app/services/servicesManeger.dart';
 import 'package:astro_app/theme/style.dart';
@@ -73,30 +74,6 @@ class _LocationsScreenState extends State<LocationsScreen> {
   }
 }
 
-class Location {
-  final int id;
-  final String location;
-  final String address;
-  final String contact;
-  final String email;
-
-  Location(
-      {required this.id,
-      required this.location,
-      required this.address,
-      required this.contact,
-      required this.email});
-
-  factory Location.fromJson(Map<String, dynamic> json) {
-    return Location(
-      id: json['id'],
-      location: json['location'],
-      address: json['address'],
-      contact: json['contact'],
-      email: json['email'],
-    );
-  }
-}
 
 class LocationCard extends StatelessWidget {
   final Location location;

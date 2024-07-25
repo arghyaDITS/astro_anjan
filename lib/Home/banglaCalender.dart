@@ -1,4 +1,3 @@
-import 'package:astro_app/Home/bangla_calender_screen.dart';
 import 'package:flutter/material.dart';
 
 class BanglaCalendarSection extends StatelessWidget {
@@ -10,7 +9,7 @@ class BanglaCalendarSection extends StatelessWidget {
           // Navigator.push(context,
           //     MaterialPageRoute(builder: (context) => BanglaCalenderScreen()));
         },
-        child: Card(
+        child: const Card(
           elevation: 4,
           child: Padding(
             padding: EdgeInsets.all(16.0),

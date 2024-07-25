@@ -1,4 +1,5 @@
 import 'package:astro_app/Appointment/payPage.dart';
+import 'package:astro_app/Home/home.dart';
 import 'package:astro_app/components/buttons.dart';
 import 'package:astro_app/components/util.dart';
 import 'package:astro_app/services/apiServices.dart';
@@ -11,11 +12,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:intl/intl.dart';
 import 'package:phonepe_payment_sdk/phonepe_payment_sdk.dart';
 
 class CheckoutScreen2 extends StatefulWidget {
-  String? amount = '100';
-  String? appoId = '10';
+  String? amount;
+  String? appoId;
   CheckoutScreen2({super.key, this.amount, this.appoId});
 
   @override
@@ -24,41 +26,40 @@ class CheckoutScreen2 extends StatefulWidget {
 
 class _CheckoutScreen2State extends State<CheckoutScreen2> {
   final TextEditingController _couponController = TextEditingController();
-    double _discount = 0.0;
+  double _discount = 0.0;
   bool isLoading = false;
-  int a=10;
-String environment="SANDBOX";
-    String appId="";
-    String merchantId="PGTESTPAYUAT86";
-    bool enableLogging=true;
-    String checksum="";
-    String saltkey="96434309-7796-489d-8924-ab56988a6076";
-    String saltindex="1";
-    String callbackUrl="https://webhook.site/b5fc8951-42a3-4857-be8a-fdd60dd7a79e";
-    String body="";
-    Object? result;
-    String apiEndPoint="/pg/v1/pay";
+  int a = 10;
+  String environment = "SANDBOX";
+  String appId = "";
+  String merchantId = "PGTESTPAYUAT86";
+  bool enableLogging = true;
+  String checksum = "";
+  String saltkey = "96434309-7796-489d-8924-ab56988a6076";
+  String saltindex = "1";
+  String callbackUrl =
+      "https://webhook.site/b5fc8951-42a3-4857-be8a-fdd60dd7a79e";
+  String body = "";
+  Object? result;
+  String apiEndPoint = "/pg/v1/pay";
 
-     getCheksum(){
-     final requesBody= {
-        "merchantId": merchantId,
-        "merchantTransactionId": "transaction_123",
-        "merchantUserId": "90223250",
-        "amount": 1000,
-        "mobileNumber": "9999999999",
-        "callbackUrl": "https://webhook.site/callback-url",
-        "paymentInstrument": {
-          "type": "PAY_PAGE",
-         
-        },
-       
-};
+  getCheksum() {
+    final requesBody = {
+      "merchantId": merchantId,
+      "merchantTransactionId": "transaction_123",
+      "merchantUserId": "90223250",
+      "amount": 1000,
+      "mobileNumber": "9999999999",
+      "callbackUrl": "https://webhook.site/callback-url",
+      "paymentInstrument": {
+        "type": "PAY_PAGE",
+      },
+    };
 
-String base64body=base64.encode(utf8.encode(json.encode(requesBody)));
-checksum='${sha256.convert(utf8.encode(base64body+apiEndPoint+saltkey)).toString()}###${saltindex}';
-return base64body;
-
-    }
+    String base64body = base64.encode(utf8.encode(json.encode(requesBody)));
+    checksum =
+        '${sha256.convert(utf8.encode(base64body + apiEndPoint + saltkey)).toString()}###${saltindex}';
+    return base64body;
+  }
 
   void _applyCoupon() {
     setState(() {
@@ -74,11 +75,12 @@ return base64body;
   @override
   void initState() {
     phonePayInit();
-    body=getCheksum().toString();
+    body = getCheksum().toString();
     super.initState();
   }
-  void phonePayInit(){
-    	PhonePePaymentSdk.init(environment, appId, merchantId, enableLogging)
+
+  void phonePayInit() {
+    PhonePePaymentSdk.init(environment, appId, merchantId, enableLogging)
         .then((val) => {
               setState(() {
                 result = 'PhonePe SDK Initialized - $val';
@@ -90,8 +92,8 @@ return base64body;
     });
   }
 
-  void starTrunction()async{
-  await  PhonePePaymentSdk.startTransaction(body, callbackUrl, checksum, "")
+  void starTrunction() async {
+    await PhonePePaymentSdk.startTransaction(body, callbackUrl, checksum, "")
         .then((response) => {
               setState(() {
                 if (response != null) {
@@ -99,10 +101,10 @@ return base64body;
                   String error = response['error'].toString();
                   if (status == 'SUCCESS') {
                     print('Flow complete');
-                    
+                    _saveAppointment(context);
                   } else {
-                 print("flow was not complete");  
-                }
+                    print("flow was not complete");
+                  }
                 } else {
                   // "Flow Incomplete";
                 }
@@ -113,11 +115,10 @@ return base64body;
       return <dynamic>{};
     });
   }
+
   void handleError(error) {
     setState(() {
-      result={
-        'error':error
-      };
+      result = {'error': error};
     });
   }
 
@@ -250,13 +251,8 @@ return base64body;
                                       title: 'Online Payment',
                                       // image: 'images/online.png',
                                       onClick: () {
-                                         starTrunction();
-                                        // Navigator.pushAndRemoveUntil(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             const PhonePay()),
-                                        //     (route) => false);
+                                        starTrunction();
+                                        _saveAppointment(context);
                                       },
                                     ),
                                   ],
@@ -289,6 +285,45 @@ return base64body;
     );
   }
 
+  _saveAppointment(context) async {
+    setState(() {
+      isLoading = true;
+    });
+    String url = APIData.payment;
+    print(url);
+    var res = await http.post(Uri.parse(url), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${ServiceManager.tokenID}',
+    }, body: {
+      'appointment_id': widget.appoId,
+      'response': "success"
+    });
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      print(res.body);
+
+      setState(() {
+        isLoading = false;
+      });
+      Map<String, dynamic> decodedResponse = json.decode(res.body);
+      print(decodedResponse['appointment_id']);
+      print(decodedResponse['amount']);
+      print("Booking successful");
+
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const Home()),
+          (route) => false);
+      // Navigator.pushAndRemoveUntil(context,
+      //     MaterialPageRoute(builder: (context) => PhonePePayment()), (route) => false);
+    }
+    setState(() {
+      isLoading = false;
+    });
+    return 'Success';
+  }
+
   Future<String> checkout({
     context,
     required String paymentType,
@@ -312,4 +347,4 @@ return base64body;
     }
     return 'Success';
   }
-  }
+}

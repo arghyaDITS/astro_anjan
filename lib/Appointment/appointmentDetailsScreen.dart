@@ -115,7 +115,7 @@ class _AppointmentDetailsScreenState extends State<AppointmentDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Appointment Details'),
-        backgroundColor: const Color.fromARGB(255, 234, 146, 250),
+     //   backgroundColor: const Color.fromARGB(255, 234, 146, 250),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())

@@ -4,6 +4,7 @@ import 'package:astro_app/Appointment/checkoutScreen.dart';
 import 'package:astro_app/Home/chembers.dart';
 import 'package:astro_app/dummyPayments/paymentScreen.dart';
 import 'package:astro_app/Home/home.dart';
+import 'package:astro_app/model/chembarLocation.dart';
 import 'package:astro_app/services/apiServices.dart';
 import 'package:astro_app/services/servicesManeger.dart';
 import 'package:astro_app/theme/style.dart';
@@ -26,8 +27,14 @@ class _BookingScheduleState extends State<BookingSchedule> {
   bool isLoading = false;
   final StreamController _streamController = StreamController();
   dynamic _selectedSlot;
-  String location='';
-  late Future<List<Location>> locations;
+  //var location=[];
+  String locId='';
+  String locState='';
+  String locDist='';
+  String locAddress='';
+  String chemberLocation='';
+  String chemberId='';
+   var locations;
 
   @override
   void initState() {
@@ -82,8 +89,9 @@ class _BookingScheduleState extends State<BookingSchedule> {
                     var data = snapshot.data as List<dynamic>;
                     return data.isNotEmpty
                         ? Column(
+                          //mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("For location ${location}"),
+                            Text("Location-  $chemberLocation, $locDist, $locState",textAlign: TextAlign.center,style: kBoldStyle(),),
                             Expanded(
                               child: GridView.builder(
                                   padding: const EdgeInsets.all(8.0),
@@ -203,8 +211,34 @@ class _BookingScheduleState extends State<BookingSchedule> {
     if (res.statusCode == 200) {
       print(res.body);
       var data = jsonDecode(res.body);
+      // Extract chamber_id from the response
+    //  if (data['location'] != null && data['location']['chamber_id'] != null) {
+    //  print("*******");
+    //   print(data['location']['chamber_id']);
+    //   print("*******");
+    //   int chamberId = data['location']['chamber_id'];
+    //   // Find the location with the matching chamber_id
+    //   Location? matchingLocation;
+    //   for (var loc in locations) {
+    //     if (loc.id == chamberId) {
+    //       matchingLocation = loc;
+    //       break;
+    //     }
+    //   }
+    //   if (matchingLocation != null) {
+    //     setState(() {
+    //       chemberLocation = matchingLocation!.address;
+    //     });
+    //   }
+    // }
+    
       setState(() {
-        location=data['location'];
+        chemberLocation=data['location']['address'];
+
+        locDist=data['location']['district'];
+        locState=data['location']['state'];
+        chemberId=data['location']['chamber_id'].toString();
+       // location=data['location'];
       });
       _streamController.add(data['schedule']);
     }
@@ -231,7 +265,7 @@ class _BookingScheduleState extends State<BookingSchedule> {
       'slot_end': endTime,
       'pay_type': 'online',
       'coupon': 'TEST1',
-      'location':'kolkata'
+      'location':chemberId.toString()
     });
     print(res.statusCode);
     print(res.body);
