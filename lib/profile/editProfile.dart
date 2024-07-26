@@ -121,11 +121,11 @@ class _EditProfileState extends State<EditProfile> {
       mobile.text = data['data']['phone'] ?? '';
       genderValue = data['data']['gender'] == 'Female'
           ? "Female"
-          : data['user']['gender'] == 'Male'
+          : data['data']['gender'] == 'Male'
               ? "Male"
               : "Other";
-              occupation.text='${data['data']['occupation']}';
-              presentAddress.text='${data['data']['address']}';
+      occupation.text = '${data['data']['occupation']}';
+      presentAddress.text = '${data['data']['address']}';
       // maritalValue = data['user']['marital_status'] == 'married'
       //     ? "Married"
       //     : "Unmarried";
@@ -157,7 +157,7 @@ class _EditProfileState extends State<EditProfile> {
       // 'user_id': ServiceManager.userID,
       'name': name.text,
       // 'email': email.text,
-       'phone': mobile.text,
+      'phone': mobile.text,
       'gender': genderValue,
       'address': presentAddress.text,
       'occupation': occupation.text
@@ -186,11 +186,10 @@ class _EditProfileState extends State<EditProfile> {
     Map<String, String> formData = {
       'name': name.text,
       // 'email': email.text,
-       'phone': mobile.text,
+      'phone': mobile.text,
       'gender': genderValue,
       'address': presentAddress.text,
       'occupation': occupation.text
-     
     };
     String url = APIData.updateUser;
     print(url);
@@ -214,7 +213,7 @@ class _EditProfileState extends State<EditProfile> {
     var responseString = await response.stream.bytesToString();
 
     if (response.statusCode == 200) {
-    print(response.toString());
+      print(response.toString());
       setState(() {
         ServiceManager.profileURL = _image!.path;
       });
@@ -275,8 +274,7 @@ class _EditProfileState extends State<EditProfile> {
                               )
                             : CircleAvatar(
                                 radius: 70,
-                                backgroundImage:
-                                    NetworkImage(profileURL), 
+                                backgroundImage: NetworkImage(profileURL),
                               ),
                   ),
                   Positioned(
@@ -316,11 +314,11 @@ class _EditProfileState extends State<EditProfile> {
                 controller: name,
               ),
               KTextField(
-                readOnly: true,//ServiceManager.roleAs == 'user' ? true : false,
+                readOnly:
+                    true, //ServiceManager.roleAs == 'user' ? true : false,
                 title: 'Email',
                 textInputType: TextInputType.emailAddress,
                 controller: email,
-                
               ),
               KTextField(
                 title: 'Mobile Number',
@@ -345,7 +343,7 @@ class _EditProfileState extends State<EditProfile> {
                           alignedDropdown: true,
                           child: DropdownButton(
                             borderRadius: BorderRadius.circular(10.0),
-                            value: genderValue != '' ? genderValue : null,
+                            value: genderValue != '' && genderValue.isNotEmpty ? genderValue : null,
                             hint: const Text('Gender'),
                             items: genderList
                                 .map<DropdownMenuItem<String>>((String value) {

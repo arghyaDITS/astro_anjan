@@ -32,9 +32,12 @@ class APIData {
 
    static const String appointmentDetail = '${baseURL}api/appointments';
 
+
    //chat
    static const String getChatData = '${baseURL}api/chats';
    static const String sendMessage = '${baseURL}api/send-message';
+   static const String requestCall = '${baseURL}api/video-calls';
+
 
    //gallery
    static const String getGalleyData='${baseURL}api/galleries';

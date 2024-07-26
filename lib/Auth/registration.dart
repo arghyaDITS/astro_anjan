@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:astro_app/Auth/login.dart';
+import 'package:astro_app/Home/home.dart';
 import 'package:astro_app/components/buttons.dart';
 import 'package:astro_app/components/customTextField.dart';
 import 'package:astro_app/components/util.dart';
+import 'package:astro_app/profile/terms.dart';
 import 'package:astro_app/services/apiServices.dart';
 import 'package:astro_app/services/servicesManeger.dart';
 import 'package:astro_app/theme/colors.dart';
@@ -38,6 +40,12 @@ class _RegistrationState extends State<Registration> {
   @override
   void initState() {
     super.initState();
+    name.text="ap2";
+    email.text="ap2@gmail.com";
+    mobile.text="9876543212";
+    password.text="12345678";
+    confirmPassword.text="12345678";
+
     // getToken();
   }
 
@@ -178,11 +186,10 @@ class _RegistrationState extends State<Registration> {
                                 style: linkTextStyle(context),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             TermsAndCondition()));
+                                   Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AboutUsScreen()));
                                   },
                               ),
                               TextSpan(text: ' and '),
@@ -191,11 +198,10 @@ class _RegistrationState extends State<Registration> {
                                 style: linkTextStyle(context),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             PrivacyPolicy()));
+                                   Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AboutUsScreen()));
                                   },
                               ),
                             ],
@@ -284,10 +290,10 @@ class _RegistrationState extends State<Registration> {
       print(ServiceManager.userID);
       print(ServiceManager.userName);
       toastMessage(message: 'User registered and logged in successfully');
-      // Navigator.pushAndRemoveUntil(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => NavigationScreen()),
-      //     (route) => false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => Login()),
+          (route) => false);
       //  } catch (e){
       setState(() {
         isLoading = false;
@@ -301,6 +307,15 @@ class _RegistrationState extends State<Registration> {
       });
       // toastMessage(message: '${data['message']}');
       toastMessage(message: '${data['errors']['email'][0]}');
+    }
+    else
+    {
+      setState(() {
+        isLoading = false;
+      });
+      // toastMessage(message: '${data['message']}');
+      toastMessage(message: '${data['errors']['email'][0]}');
+
     }
   }
 }

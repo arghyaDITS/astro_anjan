@@ -1,6 +1,6 @@
 import 'package:astro_app/Appointment/appoinments.dart';
 import 'package:astro_app/Appointment/createAppointment.dart';
-import 'package:astro_app/Home/services.dart';
+import 'package:astro_app/Home/Our%20Services/services.dart';
 import 'package:astro_app/dummyPayments/dummyPayment.dart';
 import 'package:astro_app/Home/achievements.dart';
 import 'package:astro_app/Home/banglaCalender.dart';
@@ -151,7 +151,7 @@ class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>
       },
     );
   }
-  Widget _buildGridItem(BuildContext context, DashboardItem item) {
+  Widget _buildGridItem2(BuildContext context, DashboardItem item) {
   return GestureDetector(
     onTap: () {
       Navigator.push(
@@ -210,7 +210,7 @@ class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>
 }
 
 
-  Widget _buildGridItem2(context, DashboardItem item) {
+  Widget _buildGridItem(context, DashboardItem item) {
     return GestureDetector(
       onTap: () {
         Navigator.push(

@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:astro_app/Home/servicesDetailsScreen.dart';
+import 'package:astro_app/Home/Our%20Services/servicesDetailsScreen.dart';
+import 'package:astro_app/Home/Our%20Services/servicesDetailsWebview.dart';
 import 'package:astro_app/model/servicesModel.dart';
 import 'package:astro_app/services/apiServices.dart';
 import 'package:astro_app/services/servicesManeger.dart';
@@ -18,13 +19,13 @@ class _ServiceScreenState extends State<ServiceScreen> {
 
   Future<List<Service>> fetchServices() async {
     String url = APIData.getServices;
-   var response = await http.get(Uri.parse(url), headers: {
+    var response = await http.get(Uri.parse(url), headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${ServiceManager.tokenID}',
     });
     print(response.statusCode);
     print(response.body);
-    
+
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body)['data'];
       return jsonResponse.map((service) => Service.fromJson(service)).toList();
@@ -85,15 +86,16 @@ class ServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ServiceDetailScreen(serviceId:service.id ,)),
+                  MaterialPageRoute(builder: (context) => ServiceDetailWeb(index:service.id )),
                 );
-       print('Service ID: ${service.id}');
-            },
+        print('Service ID: ${service.id}');
+      },
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         elevation: 5.0,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -101,7 +103,8 @@ class ServiceCard extends StatelessWidget {
             Expanded(
               child: CachedNetworkImage(
                 imageUrl: service.logo,
-                placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                placeholder: (context, url) =>
+                    Center(child: CircularProgressIndicator()),
                 errorWidget: (context, url, error) => Icon(Icons.error),
                 fit: BoxFit.cover,
               ),

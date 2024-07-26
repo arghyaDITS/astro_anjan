@@ -6,6 +6,7 @@ import 'package:astro_app/Home/home.dart';
 import 'package:astro_app/components/buttons.dart';
 import 'package:astro_app/components/customTextField.dart';
 import 'package:astro_app/components/util.dart';
+import 'package:astro_app/profile/terms.dart';
 import 'package:astro_app/services/apiServices.dart';
 import 'package:astro_app/services/servicesManeger.dart';
 import 'package:astro_app/theme/style.dart';
@@ -34,11 +35,10 @@ class _LoginState extends State<Login> {
   void initState() {
     // TODO: implement initState
     super.initState();
-     email.text = "soumen@gmail.com";
-     password.text = "654321";
+    email.text = "soumen@gmail.com";
+    password.text = "654321";
     // checkDeviceType();
   }
- 
 
   @override
   Widget build(BuildContext context) {
@@ -130,8 +130,11 @@ class _LoginState extends State<Login> {
                               style: linkTextStyle(context),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  // Navigator.push(context, MaterialPageRoute(
-                                  //     builder: (context) => TermsAndCondition()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AboutUsScreen()));
                                 },
                             ),
                             const TextSpan(text: ' & '),
@@ -140,30 +143,41 @@ class _LoginState extends State<Login> {
                               style: linkTextStyle(context),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  // Navigator.push(context, MaterialPageRoute(
-                                  //     builder: (context) => PrivacyPolicy()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AboutUsScreen()));
                                 },
                             ),
                           ])),
                 ),
-                SizedBox(height: 10,),
-                 RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            style: TextStyle(color: Colors.black54),
-                            children: <TextSpan>[
-                              TextSpan(text: 'Not a registered user ? '),
-                              TextSpan(
-                                text: 'Sign up',
-                                style: linkTextStyle(context),
-                                recognizer: TapGestureRecognizer()..onTap = () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => Registration()));
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                SizedBox(height: 70,)
+                SizedBox(
+                  height: 10,
+                ),
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: TextStyle(color: Colors.black54),
+                    children: <TextSpan>[
+                      TextSpan(text: 'Not a registered user ? '),
+                      TextSpan(
+                        text: 'Sign up',
+                        style: linkTextStyle(context),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Registration()));
+                          },
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 70,
+                )
               ],
             ),
           ),
@@ -177,8 +191,8 @@ class _LoginState extends State<Login> {
                     setState(() {
                       isLoading = true;
                     });
-      
-                  loginUser(context);
+
+                    loginUser(context);
                   }
                 },
               )
