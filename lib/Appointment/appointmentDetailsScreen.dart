@@ -167,7 +167,7 @@ class _AppointmentDetailsScreenState extends State<AppointmentDetailsScreen> {
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 8),
-                          Text('Email: ${appointmentDetails!['email']}'),
+                          Text('Email: ${appointmentDetails!['client_email']}'),
                           const SizedBox(height: 8),
                           Text('Phone: ${appointmentDetails!['phone']}'),
                           const SizedBox(height: 8),

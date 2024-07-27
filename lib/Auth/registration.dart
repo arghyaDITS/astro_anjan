@@ -40,11 +40,11 @@ class _RegistrationState extends State<Registration> {
   @override
   void initState() {
     super.initState();
-    name.text="ap2";
-    email.text="ap2@gmail.com";
-    mobile.text="9876543212";
-    password.text="12345678";
-    confirmPassword.text="12345678";
+    // name.text="ap2";
+    // email.text="ap2@gmail.com";
+    // mobile.text="9876543212";
+    // password.text="12345678";
+    // confirmPassword.text="12345678";
 
     // getToken();
   }

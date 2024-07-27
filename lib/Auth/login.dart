@@ -35,8 +35,8 @@ class _LoginState extends State<Login> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    email.text = "soumen@gmail.com";
-    password.text = "654321";
+    // email.text = "soumen@gmail.com";
+    // password.text = "654321";
     // checkDeviceType();
   }
 

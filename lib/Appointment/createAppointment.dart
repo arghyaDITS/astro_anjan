@@ -50,19 +50,18 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _nameController.text = 'John Doe';
-    _phoneController.text = '1234567890';
-    _emailController.text = 'john.doe@example.com';
-    _dobController.text = '01/01/2000';
-    _pobController.text = 'New York';
-    _tobController.text = '12:00 PM';
-    _refNameController.text = 'Jane Smith';
-    _guardianNameController.text = 'Richard Roe';
-    _pinController.text = '123456';
-    _refAddressController.text = '123 Reference St';
-    _areaController.text = 'Downtown';
-    _cityController.text = 'New York City';
-
+    // _nameController.text = 'John Doe';
+    // _phoneController.text = '1234567890';
+    // _emailController.text = 'john.doe@example.com';
+    // _dobController.text = '01/01/2000';
+    // _pobController.text = 'New York';
+    // _tobController.text = '12:00 PM';
+    // _refNameController.text = 'Jane Smith';
+    // _guardianNameController.text = 'Richard Roe';
+    // _pinController.text = '123456';
+    // _refAddressController.text = '123 Reference St';
+    // _areaController.text = 'Downtown';
+    // _cityController.text = 'New York City';
     getStateAndDistrict();
   }
 

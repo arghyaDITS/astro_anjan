@@ -280,11 +280,11 @@ class _BookingScheduleState extends State<BookingSchedule> {
       print(decodedResponse['amount']);
       print("Booking successful");
 
-  Navigator.pushAndRemoveUntil(context,
+  Navigator.push(context,
           MaterialPageRoute(builder: (context) => CheckoutScreen2(
             appoId: decodedResponse['appointment_id'],
             amount: decodedResponse['amount'],
-          )), (route) => false);
+          )));
       // Navigator.pushAndRemoveUntil(context,
       //     MaterialPageRoute(builder: (context) => PhonePePayment()), (route) => false);
     }
