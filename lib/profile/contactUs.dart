@@ -45,10 +45,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     print(res.body);
     if (res.statusCode == 200) {
       print(res.body);
-       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-            builder: (context) => const Home()), (route) => false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const Home()),
+          (route) => false);
 
-    //  var data = jsonDecode(res.body);
+      //  var data = jsonDecode(res.body);
     }
     isLoading = false;
     return 'Success';
@@ -59,7 +61,6 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Contact Us'),
-        
       ),
       body: Container(
         decoration: kBackgroundDesign(context),
@@ -129,7 +130,10 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           const SizedBox(height: 20),
           TextFormField(
             controller: phoneCon,
+             keyboardType: TextInputType.phone,
+            
             decoration: const InputDecoration(
+            
               labelText: 'Phone',
               border: OutlineInputBorder(),
               filled: true,
@@ -139,6 +143,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your phone number';
+              }
+              // Regular expression for validating phone numbers
+              String pattern = r'^(?:[+0]9)?[0-9]{10}$';
+              RegExp regExp = RegExp(pattern);
+              if (!regExp.hasMatch(value)) {
+                return 'Please enter a valid phone number';
               }
               return null;
             },
@@ -164,19 +174,21 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             onSaved: (value) => _message = value ?? '',
           ),
           const SizedBox(height: 80),
-        isLoading==true?LoadingButton():  KButton(
-              title: "Submit",
-              onClick: () {
-                if (_formKey.currentState?.validate() ?? false) {
-                  _formKey.currentState?.save();
-                  sendrequest();
-                  // Handle form submission logic
-                  print('Name: $_name');
-                  print('Email: $_email');
-                  print('Phone: $_phone');
-                  print('Message: $_message');
-                }
-              }),
+          isLoading == true
+              ? LoadingButton()
+              : KButton(
+                  title: "Submit",
+                  onClick: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      _formKey.currentState?.save();
+                      sendrequest();
+                      // Handle form submission logic
+                      print('Name: $_name');
+                      print('Email: $_email');
+                      print('Phone: $_phone');
+                      print('Message: $_message');
+                    }
+                  }),
         ],
       ),
     );

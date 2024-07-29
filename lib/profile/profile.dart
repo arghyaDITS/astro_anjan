@@ -201,6 +201,9 @@ class _ProfileViewState extends State<ProfileView> {
               });
             },
           ),
+          kSpace(),
+          kSpace(),
+          Text("Version: 1.0.0")
         ],
       ),
     );

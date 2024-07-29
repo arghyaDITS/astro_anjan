@@ -32,19 +32,19 @@ class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>
 
   final List<DashboardItem> dashboardItems = [
     DashboardItem('Calendar', FontAwesomeIcons.calendar,
-        const Color.fromARGB(255, 146, 204, 252), CalendarScreen()),
+        const Color.fromARGB(255, 246, 227, 250), CalendarScreen()),
     DashboardItem('Rashifal', FontAwesomeIcons.star,
-        const Color.fromARGB(255, 255, 243, 139), RashiGridScreen()),
+        Color.fromARGB(255, 213, 164, 223), RashiGridScreen()),
     DashboardItem('Appointments', FontAwesomeIcons.calendarCheck,
-        const Color.fromARGB(255, 255, 138, 236), Appoinments()),
+        Color.fromARGB(255, 213, 164, 223), Appoinments()),
     DashboardItem('Book Appointments', FontAwesomeIcons.calendarPlus,
-        const Color.fromARGB(255, 255, 203, 125), CreateAppointmentScreen()),
+        const Color.fromARGB(255, 246, 227, 250), CreateAppointmentScreen()),
     DashboardItem('Chembers', FontAwesomeIcons.house,
         const Color.fromARGB(255, 246, 227, 250), LocationsScreen()),
     DashboardItem('Achivements', FontAwesomeIcons.award,
-        const Color.fromARGB(255, 246, 227, 250), CertificateScreen()),
+        const Color.fromARGB(255, 213, 164, 223), CertificateScreen()),
     DashboardItem('Services', FontAwesomeIcons.servicestack,
-        const Color.fromARGB(255, 246, 227, 250), ServiceScreen()),
+        const Color.fromARGB(255, 213, 164, 223), ServiceScreen()),
 
     // Add more items as needed
   ];
