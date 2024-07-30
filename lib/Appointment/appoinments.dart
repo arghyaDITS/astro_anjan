@@ -87,7 +87,7 @@ class _AppoinmentsState extends State<Appoinments> {
                                   itemCount: data.length,
                                   separatorBuilder:
                                       (BuildContext context, int index) {
-                                    return const SizedBox(height: 15);
+                                    return const SizedBox(height: 1);
                                   },
                                   itemBuilder: (context, index) {
                                     DateTime startTime = DateFormat("HH:mm:ss")
@@ -95,8 +95,8 @@ class _AppoinmentsState extends State<Appoinments> {
                                     DateTime endTime = DateFormat("HH:mm:ss")
                                         .parse(data[index]['slot_end']);
                                     return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10.0, vertical: 5.0),
+                                      padding: const EdgeInsets.only(
+                                          right: 10.0, left: 10.0,top: 10),
                                       child: GestureDetector(
                                         onTap: () {
                                           print("ssdd");

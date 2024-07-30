@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:astro_app/Appointment/checkOutScreen2.dart';
 import 'package:astro_app/Appointment/checkoutScreen.dart';
 import 'package:astro_app/Home/chembers.dart';
+import 'package:astro_app/components/util.dart';
 import 'package:astro_app/dummyPayments/paymentScreen.dart';
 import 'package:astro_app/Home/home.dart';
 import 'package:astro_app/model/chembarLocation.dart';
@@ -28,20 +29,21 @@ class _BookingScheduleState extends State<BookingSchedule> {
   final StreamController _streamController = StreamController();
   dynamic _selectedSlot;
   //var location=[];
-  String locId='';
-  String locState='';
-  String locDist='';
-  String locAddress='';
-  String chemberLocation='';
-  String chemberId='';
-   var locations;
+  String locId = '';
+  String locState = '';
+  String locDist = '';
+  String locAddress = '';
+  String chemberLocation = '';
+  String chemberId = '';
+  var locations;
 
   @override
   void initState() {
     super.initState();
     locations = fetchLocations();
   }
-   Future<List<Location>> fetchLocations() async {
+
+  Future<List<Location>> fetchLocations() async {
     String url = APIData.chembersData;
     print(url);
 
@@ -72,7 +74,9 @@ class _BookingScheduleState extends State<BookingSchedule> {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             ElevatedButton(
               onPressed: _selectDate,
               child: Text(
@@ -89,11 +93,15 @@ class _BookingScheduleState extends State<BookingSchedule> {
                     var data = snapshot.data as List<dynamic>;
                     return data.isNotEmpty
                         ? Column(
-                          //mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Location-  $chemberLocation, $locDist, $locState",textAlign: TextAlign.center,style: kBoldStyle(),),
-                            Expanded(
-                              child: GridView.builder(
+                            //mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Location-  $chemberLocation, $locDist, $locState",
+                                textAlign: TextAlign.center,
+                                style: kBoldStyle(),
+                              ),
+                              Expanded(
+                                child: GridView.builder(
                                   padding: const EdgeInsets.all(8.0),
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
@@ -105,8 +113,12 @@ class _BookingScheduleState extends State<BookingSchedule> {
                                   itemCount: data.length,
                                   itemBuilder: (context, index) {
                                     var slot = data[index];
-                                    String startTime = DateFormat.jm().format(DateFormat("HH:mm:ss").parse(slot['start']));
-                                    String endTime = DateFormat.jm().format(DateFormat("HH:mm:ss").parse(slot['end']));
+                                    String startTime = DateFormat.jm().format(
+                                        DateFormat("HH:mm:ss")
+                                            .parse(slot['start']));
+                                    String endTime = DateFormat.jm().format(
+                                        DateFormat("HH:mm:ss")
+                                            .parse(slot['end']));
                                     return GestureDetector(
                                       onTap: () {
                                         if (slot['status'] == true) {
@@ -120,18 +132,20 @@ class _BookingScheduleState extends State<BookingSchedule> {
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: _selectedSlot == slot
-                                              ? Color.fromARGB(255, 180, 105, 241)
+                                              ? Color.fromARGB(
+                                                  255, 180, 105, 241)
                                               : slot['status'] == true
                                                   ? const Color.fromARGB(
                                                       255, 247, 201, 255)
                                                   : Color.fromARGB(
                                                       174, 183, 183, 184),
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                         ),
                                         child: Center(
                                           child: Text(
                                             '$startTime - $endTime',
-                                           // '${slot['start']} - ${slot['end']}',
+                                            // '${slot['start']} - ${slot['end']}',
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -139,9 +153,9 @@ class _BookingScheduleState extends State<BookingSchedule> {
                                     );
                                   },
                                 ),
-                            ),
-                          ],
-                        )
+                              ),
+                            ],
+                          )
                         : const Center(
                             child: Text("No Slots Available!"),
                           );
@@ -159,14 +173,14 @@ class _BookingScheduleState extends State<BookingSchedule> {
                     print('Start Time: ${_selectedSlot['start']}');
                     print('End Time: ${_selectedSlot['end']}');
                     print('Status: ${_selectedSlot['status']}');
-                      _saveSlot(
+                    _saveSlot(
                       context,
                       slotNo: _selectedSlot['slot'],
                       startTime: _selectedSlot['start'],
                       endTime: _selectedSlot['end'],
                     );
-                     
-                  
+                  } else {
+                    toastMessage(message: "Please select the date and slot!");
                   }
                 },
                 child: Text('Save'),
@@ -212,33 +226,33 @@ class _BookingScheduleState extends State<BookingSchedule> {
       print(res.body);
       var data = jsonDecode(res.body);
       // Extract chamber_id from the response
-    //  if (data['location'] != null && data['location']['chamber_id'] != null) {
-    //  print("*******");
-    //   print(data['location']['chamber_id']);
-    //   print("*******");
-    //   int chamberId = data['location']['chamber_id'];
-    //   // Find the location with the matching chamber_id
-    //   Location? matchingLocation;
-    //   for (var loc in locations) {
-    //     if (loc.id == chamberId) {
-    //       matchingLocation = loc;
-    //       break;
-    //     }
-    //   }
-    //   if (matchingLocation != null) {
-    //     setState(() {
-    //       chemberLocation = matchingLocation!.address;
-    //     });
-    //   }
-    // }
-    
-      setState(() {
-        chemberLocation=data['location']['address'];
+      //  if (data['location'] != null && data['location']['chamber_id'] != null) {
+      //  print("*******");
+      //   print(data['location']['chamber_id']);
+      //   print("*******");
+      //   int chamberId = data['location']['chamber_id'];
+      //   // Find the location with the matching chamber_id
+      //   Location? matchingLocation;
+      //   for (var loc in locations) {
+      //     if (loc.id == chamberId) {
+      //       matchingLocation = loc;
+      //       break;
+      //     }
+      //   }
+      //   if (matchingLocation != null) {
+      //     setState(() {
+      //       chemberLocation = matchingLocation!.address;
+      //     });
+      //   }
+      // }
 
-        locDist=data['location']['district'];
-        locState=data['location']['state'];
-        chemberId=data['location']['chamber_id'].toString();
-       // location=data['location'];
+      setState(() {
+        chemberLocation = data['location']['address'];
+
+        locDist = data['location']['district'];
+        locState = data['location']['state'];
+        chemberId = data['location']['chamber_id'].toString();
+        // location=data['location'];
       });
       _streamController.add(data['schedule']);
     }
@@ -265,7 +279,7 @@ class _BookingScheduleState extends State<BookingSchedule> {
       'slot_end': endTime,
       'pay_type': 'online',
       'coupon': 'TEST1',
-      'location':chemberId.toString()
+      'location': chemberId.toString()
     });
     print(res.statusCode);
     print(res.body);
@@ -280,11 +294,13 @@ class _BookingScheduleState extends State<BookingSchedule> {
       print(decodedResponse['amount']);
       print("Booking successful");
 
-  Navigator.push(context,
-          MaterialPageRoute(builder: (context) => CheckoutScreen2(
-            appoId: decodedResponse['appointment_id'],
-            amount: decodedResponse['amount'],
-          )));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CheckoutScreen2(
+                    appoId: decodedResponse['appointment_id'],
+                    amount: decodedResponse['amount'],
+                  )));
       // Navigator.pushAndRemoveUntil(context,
       //     MaterialPageRoute(builder: (context) => PhonePePayment()), (route) => false);
     }

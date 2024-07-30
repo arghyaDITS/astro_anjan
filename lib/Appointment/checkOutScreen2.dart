@@ -101,7 +101,7 @@ class _CheckoutScreen2State extends State<CheckoutScreen2> {
                   String error = response['error'].toString();
                   if (status == 'SUCCESS') {
                     print('Flow complete');
-                    _saveAppointment(context);
+                   //_saveAppointment(context);
                   } else {
                     print("flow was not complete");
                   }
@@ -149,19 +149,19 @@ class _CheckoutScreen2State extends State<CheckoutScreen2> {
                   children: [
                     const Text('Total Amount', style: TextStyle(fontSize: 18)),
                     const SizedBox(height: 4),
-                    Text('\$${widget.amount}',
+                    Text('Rs. ${widget.amount}',
                         style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
                     const Divider(height: 32),
                     const Text('Discount', style: TextStyle(fontSize: 18)),
                     const SizedBox(height: 4),
-                    Text('\$${_discount.toStringAsFixed(2)}',
+                    Text('Rs. ${_discount.toStringAsFixed(2)}',
                         style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
                     const Divider(height: 32),
                     const Text('Final Amount', style: TextStyle(fontSize: 18)),
                     const SizedBox(height: 4),
-                    Text('\$$finalAmount',
+                    Text('Rs. $finalAmount',
                         style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
                   ],
@@ -231,18 +231,21 @@ class _CheckoutScreen2State extends State<CheckoutScreen2> {
                                 ),
                                 Column(
                                   children: [
-                                    LoginButton(
-                                      title: 'Cash On Delivery',
-                                      //  image: 'images/cash.png',
-                                      onClick: () {
-                                        // checkout(
-                                        //   context: context,
-                                        //   paymentType: 'Cash On Delivery',
-                                        //   paymentStatus: 'Unpaid',
-                                        //   paymentId: '',
-                                        // );
-                                      },
-                                    ),
+                                    (ServiceManager.userID ==
+                                            'arghya@gmail.com')
+                                        ? LoginButton(
+                                            title: 'Cash On Delivery',
+                                            //  image: 'images/cash.png',
+                                            onClick: () {
+                                              // checkout(
+                                              //   context: context,
+                                              //   paymentType: 'Cash On Delivery',
+                                              //   paymentStatus: 'Unpaid',
+                                              //   paymentId: '',
+                                              // );
+                                            },
+                                          )
+                                        : Container(),
                                   ],
                                 ),
                                 Column(
@@ -252,7 +255,7 @@ class _CheckoutScreen2State extends State<CheckoutScreen2> {
                                       // image: 'images/online.png',
                                       onClick: () {
                                         starTrunction();
-                                        _saveAppointment(context);
+                                        //_saveAppointment(context);
                                       },
                                     ),
                                   ],

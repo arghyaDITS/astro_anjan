@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Container(
       decoration: kBackgroundDesign(context),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+       // backgroundColor: Colors.transparent,
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(child: Image.asset('images/logo.jpg', height: 200)),

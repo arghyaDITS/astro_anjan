@@ -1,3 +1,4 @@
+import 'package:astro_app/components/util.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -13,6 +14,8 @@ class _ServiceDetailWebState extends State<ServiceDetailWeb> {
   late final WebViewController _controller;
   String serviceUrl =
       'https://anjanshastri.com/best-astrologer-in-india-dr-anjan-shastri/';
+        bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -53,8 +56,17 @@ class _ServiceDetailWebState extends State<ServiceDetailWeb> {
           onProgress: (int progress) {
             // Update loading bar.
           },
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) {},
+          onPageStarted: (String url) {
+            setState(() {
+              isLoading=true;
+            });
+
+          },
+          onPageFinished: (String url) {
+            setState(() {
+              isLoading=false;
+            });
+          },
           onHttpError: (HttpResponseError error) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
@@ -75,9 +87,16 @@ class _ServiceDetailWebState extends State<ServiceDetailWeb> {
         appBar: AppBar(
          // title: Text('About Us'),
         ),
-        body: WebViewWidget(
-          controller: _controller,
+        body: Stack(
+          children: [
+            WebViewWidget(
+              controller: _controller,
+            ),
+            if(isLoading)
+            Center(child: LoadingIcon(),)
+          ],
         )
+        
         //WebView(
         //   initialUrl: 'https://your-webpage-url.com',
         //   javascriptMode: JavascriptMode.unrestricted,
