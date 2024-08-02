@@ -34,7 +34,7 @@ class ServiceManager {
   void getUserID () async {
     final prefs = await SharedPreferences.getInstance();
     userID = prefs.getString('userID') ?? '';
-    // getUserData();
+     getUserData();
   }
 
   void setToken (String userID) async {
@@ -86,7 +86,7 @@ class ServiceManager {
       userDob = data['data']['dob'] ?? '';
       designation = data['data']['Designation'] ?? '';
       userBranchID = data['data']['branchId'] ?? '';
-      roleAs='${data['data']['role_as']}';
+      roleAs='${data['data']['use_role']}';
     } else {
       // print('Status Code: ${res.statusCode}');
       // print(res.body);

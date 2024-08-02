@@ -26,9 +26,9 @@ class CheckoutScreen2 extends StatefulWidget {
 
 class _CheckoutScreen2State extends State<CheckoutScreen2> {
   final TextEditingController _couponController = TextEditingController();
-  double _discount = 0.0;
+
   bool isLoading = false;
-  int a = 10;
+  //int a = 10;
   String environment = "SANDBOX";
   String appId = "";
   String merchantId = "PGTESTPAYUAT86";
@@ -41,6 +41,9 @@ class _CheckoutScreen2State extends State<CheckoutScreen2> {
   String body = "";
   Object? result;
   String apiEndPoint = "/pg/v1/pay";
+  String? totalAmount;
+  String? _discount;
+  String? finalAmount;
 
   getCheksum() {
     final requesBody = {
@@ -61,20 +64,96 @@ class _CheckoutScreen2State extends State<CheckoutScreen2> {
     return base64body;
   }
 
-  void _applyCoupon() {
+  _removeCoupon() async {
     setState(() {
-      // Apply coupon logic here, for example:
-      if (_couponController.text == 'DISCOUNT10') {
-        // _discount = widget.amount! * 0.1; // 10% discount
-      } else {
-        _discount = 0.0;
-      }
+      isLoading = true;
     });
+    String url = APIData.removeCoupon;
+    print(url);
+
+    var res = await http.post(Uri.parse(url), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${ServiceManager.tokenID}',
+    }, body: {
+      'coupon': _couponController.text,
+      'appointment_id': widget.appoId
+    });
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      //  print(res.body);
+      
+      var data = jsonDecode(res.body);
+      print(data.toString());
+      setState(() {
+        isLoading = false;
+        _couponController.clear;
+        _couponController.text='';
+        totalAmount = data['total_amount'].toString();
+        _discount = data['discount'].toString();
+        finalAmount=data['final_amount'].toString();
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Coupon removed successfully"),
+        ),
+      );
+    }
+    return 'Success';
   }
+
+  applyCouponCode() async {
+    setState(() {
+      isLoading = true;
+    });
+    String url = APIData.checkCoupon;
+    print(url);
+
+    var res = await http.post(Uri.parse(url), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${ServiceManager.tokenID}',
+    }, body: {
+      'coupon': _couponController.text,
+      'appointment_id': widget.appoId
+    });
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      //  print(res.body);
+
+      var data = jsonDecode(res.body);
+      print(data.toString());
+      print(data['final_amount']);
+      setState(() {
+        isLoading = false;
+        totalAmount = data['total_amount'].toString();
+        _discount = data['discount'].toString();
+        finalAmount=data['final_amount'].toString();
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Coupon Applied successfully"),
+        ),
+      );
+    }
+    return 'Success';
+  }
+
+  // void _applyCoupon() {
+  //   setState(() {
+  //     // Apply coupon logic here, for example:
+  //     if (_couponController.text == 'DISCOUNT10') {
+  //       // _discount = widget.amount! * 0.1; // 10% discount
+  //     } else {
+  //       _discount = 0.0;
+  //     }
+  //   });
+  // }
 
   @override
   void initState() {
     phonePayInit();
+    totalAmount = widget.amount;
+    finalAmount = widget.amount;
+    _discount = "0.0";
     body = getCheksum().toString();
     super.initState();
   }
@@ -101,7 +180,7 @@ class _CheckoutScreen2State extends State<CheckoutScreen2> {
                   String error = response['error'].toString();
                   if (status == 'SUCCESS') {
                     print('Flow complete');
-                   //_saveAppointment(context);
+                    _saveAppointment(context);
                   } else {
                     print("flow was not complete");
                   }
@@ -124,164 +203,180 @@ class _CheckoutScreen2State extends State<CheckoutScreen2> {
 
   @override
   Widget build(BuildContext context) {
-    String? finalAmount = (widget.amount); // - _discount) + gstAmount;
+    //String? finalAmount = (widget.amount); // - _discount) + gstAmount;
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text('Checkout', style: TextStyle(fontSize: 24)),
-        backgroundColor: Colors.deepPurple,
+      //  backgroundColor: Colors.deepPurple,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('Appointment Id: ${widget.appoId}',
-                style: TextStyle(fontSize: 18)),
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Total Amount', style: TextStyle(fontSize: 18)),
-                    const SizedBox(height: 4),
-                    Text('Rs. ${widget.amount}',
-                        style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
-                    const Divider(height: 32),
-                    const Text('Discount', style: TextStyle(fontSize: 18)),
-                    const SizedBox(height: 4),
-                    Text('Rs. ${_discount.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
-                    const Divider(height: 32),
-                    const Text('Final Amount', style: TextStyle(fontSize: 18)),
-                    const SizedBox(height: 4),
-                    Text('Rs. $finalAmount',
-                        style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _couponController,
-              decoration: InputDecoration(
-                labelText: 'Enter Coupon Code',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                prefixIcon:
-                    const Icon(Icons.local_offer, color: Colors.deepPurple),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: _applyCoupon,
-              icon:
-                  const Icon(FontAwesomeIcons.checkCircle, color: Colors.white),
-              label: const Text('Apply Coupon',
-                  style: TextStyle(fontSize: 18, color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+      body: Container(
+        decoration: kBackgroundDesign(context),
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text('Appointment Id: ${widget.appoId}',
+                  style: TextStyle(fontSize: 18)),
+              Card(
+                elevation: 4,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Total Amount', style: TextStyle(fontSize: 18)),
+                      const SizedBox(height: 4),
+                      Text('Rs. $totalAmount',//${widget.amount}',
+                          style: const TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold)),
+                      const Divider(height: 32),
+                      const Text('Discount', style: TextStyle(fontSize: 18)),
+                      const SizedBox(height: 4),
+                      Text('Rs. ${_discount}',
+                          style: const TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold)),
+                      const Divider(height: 32),
+                      const Text('Final Amount', style: TextStyle(fontSize: 18)),
+                      const SizedBox(height: 4),
+                      Text('Rs. $finalAmount',
+                          style: const TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const Spacer(),
-            ElevatedButton.icon(
-              onPressed: () {
-                showModalBottomSheet(
-                    shape: bottomSheetRoundedDesign(),
-                    context: context,
-                    builder: (context) {
-                      return StatefulBuilder(builder:
-                          (BuildContext context, StateSetter setState) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15.0, vertical: 10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+              const SizedBox(height: 16),
+              TextField(
+                controller: _couponController,
+                decoration: InputDecoration(
+                  labelText: 'Enter Coupon Code',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  prefixIcon:
+                      const Icon(Icons.local_offer, color: Colors.deepPurple),
+                  suffixIcon:
+                  // _couponController.text.isNotEmpty
+                     // ?
+                       IconButton(
+                          icon: const Icon(Icons.clear, color: Colors.deepPurple),
+                          onPressed: _removeCoupon,
+                        )
+                      //: null,
+                ),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                onPressed: applyCouponCode,
+                icon:
+                    const Icon(FontAwesomeIcons.checkCircle, color: Colors.white),
+                label: const Text('Apply Coupon',
+                    style: TextStyle(fontSize: 18, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height/5,
+              ),
+              //const Spacer(),
+              ElevatedButton.icon(
+                onPressed: () {
+                  showModalBottomSheet(
+                      shape: bottomSheetRoundedDesign(),
+                      context: context,
+                      builder: (context) {
+                        return StatefulBuilder(builder:
+                            (BuildContext context, StateSetter setState) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                                bottom: MediaQuery.of(context).viewInsets.bottom),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15.0, vertical: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Payment Method',
+                                            style: kHeaderStyle()),
+                                        IconButton(
+                                          onPressed: () => Navigator.pop(context),
+                                          icon: Icon(Icons.close),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Column(
                                     children: [
-                                      Text('Payment Method',
-                                          style: kHeaderStyle()),
-                                      IconButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        icon: Icon(Icons.close),
+                                      (ServiceManager.roleAs != 'online')
+                                          ? LoginButton(
+                                              title: 'Cash On Delivery',
+                                              //  image: 'images/cash.png',
+                                              onClick: () {
+                                                _saveAppointment(context);
+                                                // checkout(
+                                                //   context: context,
+                                                //   paymentType: 'Cash On Delivery',
+                                                //   paymentStatus: 'Unpaid',
+                                                //   paymentId: '',
+                                                // );
+                                              },
+                                            )
+                                          : Container(),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      LoginButton(
+                                        title: 'Online Payment',
+                                        // image: 'images/online.png',
+                                        onClick: () {
+                                          starTrunction();
+                                          //_saveAppointment(context);
+                                        },
                                       ),
                                     ],
                                   ),
-                                ),
-                                Column(
-                                  children: [
-                                    (ServiceManager.userID ==
-                                            'arghya@gmail.com')
-                                        ? LoginButton(
-                                            title: 'Cash On Delivery',
-                                            //  image: 'images/cash.png',
-                                            onClick: () {
-                                              // checkout(
-                                              //   context: context,
-                                              //   paymentType: 'Cash On Delivery',
-                                              //   paymentStatus: 'Unpaid',
-                                              //   paymentId: '',
-                                              // );
-                                            },
-                                          )
-                                        : Container(),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    LoginButton(
-                                      title: 'Online Payment',
-                                      // image: 'images/online.png',
-                                      onClick: () {
-                                        starTrunction();
-                                        //_saveAppointment(context);
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 40.0),
-                              ],
+                                  SizedBox(height: 40.0),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        });
                       });
-                    });
-              },
-              icon:
-                  const Icon(FontAwesomeIcons.creditCard, color: Colors.white),
-              label: const Text('Pay with PhonePe',
-                  style: TextStyle(fontSize: 18, color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                },
+                icon:
+                    const Icon(FontAwesomeIcons.creditCard, color: Colors.white),
+                label: const Text('Pay',
+                    style: TextStyle(fontSize: 18, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  minimumSize: const Size(double.infinity, 50),
                 ),
-                minimumSize: const Size(double.infinity, 50),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       //-------------------

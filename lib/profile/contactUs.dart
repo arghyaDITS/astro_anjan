@@ -28,7 +28,11 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   String _message = '';
   bool isLoading = false;
   sendrequest() async {
-    isLoading = true;
+    setState(() {
+       isLoading = true;
+      
+    });
+   
     String url = APIData.contactUs;
     print(url);
 
@@ -45,6 +49,11 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     print(res.body);
     if (res.statusCode == 200) {
       print(res.body);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Thank you for contacting us!"),
+        ),
+      );
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const Home()),
@@ -52,7 +61,19 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
       //  var data = jsonDecode(res.body);
     }
-    isLoading = false;
+    else
+    {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Something went wrong!"),
+        ),
+      );
+    }
+    setState(() {
+       isLoading = false;
+      
+    });
+   
     return 'Success';
   }
 

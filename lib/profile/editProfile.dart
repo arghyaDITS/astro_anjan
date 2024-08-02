@@ -123,7 +123,7 @@ class _EditProfileState extends State<EditProfile> {
           ? "Female"
           : data['data']['gender'] == 'Male'
               ? "Male"
-              : "Other";
+              : "Others";
       occupation.text = '${data['data']['occupation']}';
       presentAddress.text = '${data['data']['address']}';
       // maritalValue = data['user']['marital_status'] == 'married'

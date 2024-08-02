@@ -1,5 +1,6 @@
 import 'package:astro_app/Appointment/appoinments.dart';
 import 'package:astro_app/Appointment/createAppointment.dart';
+import 'package:astro_app/Home/bangLaCalender/banglaCalender.dart';
 import 'package:astro_app/Home/bangLaCalender/testBanglaCalender.dart';
 import 'package:astro_app/Home/Our%20Services/services.dart';
 import 'package:astro_app/dummyPayments/dummyPayment.dart';
@@ -32,7 +33,7 @@ class _AstrologyDashboardScreenState extends State<AstrologyDashboardScreen>
 
   final List<DashboardItem> dashboardItems = [
     DashboardItem('Calendar', FontAwesomeIcons.calendar,
-        const Color.fromARGB(255, 246, 227, 250), CalendarScreen()),
+        const Color.fromARGB(255, 246, 227, 250), BnglaCalanderPage()),
     DashboardItem('Rashifal', FontAwesomeIcons.star,
         Color.fromARGB(255, 213, 164, 223), RashiGridScreen()),
     DashboardItem('Appointments', FontAwesomeIcons.calendarCheck,

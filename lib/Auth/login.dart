@@ -222,6 +222,7 @@ class _LoginState extends State<Login> {
         ServiceManager().setToken('${data['auth_token']}');
         ServiceManager.userID = '${data['userInfo']['id']}';
         ServiceManager.tokenID = '${data['auth_token']}';
+        print(ServiceManager.roleAs);
         toastMessage(message: 'Logged In');
         Navigator.pushAndRemoveUntil(context,
             MaterialPageRoute(builder: (context) => Home()), (route) => false);
