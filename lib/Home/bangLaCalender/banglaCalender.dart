@@ -268,7 +268,6 @@ class _BnglaCalanderPageState extends State<BnglaCalanderPage> {
 
   @override
   void initState() {
-    // getTotalMonth();
     super.initState();
   }
 
@@ -286,13 +285,13 @@ class _BnglaCalanderPageState extends State<BnglaCalanderPage> {
 
     // Adjust the start index based on the first date's weekday
     final adjustedDates = List.generate(
-      firstWeekday ,
+      firstWeekday,
       (index) => {'empty': ''},
     )..addAll(bengaliMonthDates);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calander'),
+        title: const Text('Bengali Calendar'),
         backgroundColor: Colors.blue,
       ),
       body: Container(
@@ -309,7 +308,7 @@ class _BnglaCalanderPageState extends State<BnglaCalanderPage> {
                     IconButton(
                         onPressed: () {
                           setState(() {
-                            if (monthIndex >= 1) {
+                            if (monthIndex > 1) {
                               monthIndex--;
                             }
                           });
@@ -323,7 +322,7 @@ class _BnglaCalanderPageState extends State<BnglaCalanderPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "${banglaMonths[monthIndex] + "-" + _tdate.bYear}বঙ্গাব্দ",
+                            "${banglaMonths[monthIndex] + "-" + _tdate.bYear} বঙ্গাব্দ",
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 22,
@@ -407,6 +406,7 @@ class _BnglaCalanderPageState extends State<BnglaCalanderPage> {
                     print(dayName); // Output: বৃহস্পতিবার
                   } else {
                     print('Day name not found');
+                    dayName = '';
                   }
 
                   return InkWell(
@@ -417,30 +417,24 @@ class _BnglaCalanderPageState extends State<BnglaCalanderPage> {
                         border: Border.all(color: Colors.grey.shade300),
                       ),
                       child: Center(
-                        child: Flexible(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  Text(date,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 27,
-                                          fontWeight: FontWeight.bold)),
-                                            Text(dayName!.substring(0,1),
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 8,
-                                      )),
-                                  // Text(
-                                  //   englishDate.substring(8, 10),
-                                  //   style: const TextStyle(fontSize: 8),
-                                  // )
-                                ],
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              date,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 27,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              dayName.substring(0, 1),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 8,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
