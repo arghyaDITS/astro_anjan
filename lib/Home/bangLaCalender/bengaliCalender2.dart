@@ -1,3 +1,4 @@
+import 'package:astro_app/components/util.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -8,6 +9,8 @@ class BengaliCalendarScreen extends StatefulWidget {
 
 class _BengaliCalendarScreenState extends State<BengaliCalendarScreen> {
   late WebViewController _controller;
+          bool isLoading = true;
+
   String aboutUsUrl = 'https://bengalicalendar.com/embed/index.php/';
   @override
   void initState() {
@@ -20,8 +23,16 @@ class _BengaliCalendarScreenState extends State<BengaliCalendarScreen> {
           onProgress: (int progress) {
             // Update loading bar.
           },
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) {},
+          onPageStarted: (String url) {
+            setState(() {
+              isLoading=true;
+            });
+          },
+          onPageFinished: (String url) {
+            setState(() {
+              isLoading=false;
+            });
+          },
           onHttpError: (HttpResponseError error) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
@@ -43,8 +54,14 @@ class _BengaliCalendarScreenState extends State<BengaliCalendarScreen> {
           title: Text('Bengali Calendar'),
         
         ),
-        body: WebViewWidget(
-          controller: _controller,
+        body: Stack(
+          children: [
+            WebViewWidget(
+              controller: _controller,
+            ),
+            if(isLoading)
+            Center(child: LoadingIcon(),)
+          ],
         ));
   }
 }
