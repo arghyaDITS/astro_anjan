@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:astro_app/Home/home.dart';
 import 'package:astro_app/components/buttons.dart';
 import 'package:astro_app/components/customTextField.dart';
 import 'package:astro_app/components/imahePickerPopup.dart';
@@ -143,12 +144,7 @@ class _EditProfileState extends State<EditProfile> {
     //   isLoading = true;
     // });
     String url = APIData.updateUser;
-    // String base64Image = '';
-    // if (_image != null) {
-    //   List<int> imageBytes = await _image!.readAsBytes();
-    //   base64Image = base64Encode(imageBytes);
-    //   print(base64Image.toString());
-    // }
+    
     print(url);
     var res = await http.post(Uri.parse(url), headers: {
       'Accept': 'application/json',
@@ -168,12 +164,19 @@ class _EditProfileState extends State<EditProfile> {
       var data = jsonDecode(res.body);
       print(data.toString());
       toastMessage(message: 'Profile Updated');
-      Navigator.pop(context);
+      ServiceManager().getUserData();
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => Home()), (route) => false);
+      //Navigator.pop(context);
       // setState(() {
       //   isLoading = false;
       // });
 
       // _streamController.add(data['data']);
+    }
+    else
+    {
+      print(res.body);
     }
     return 'Success';
   }
@@ -214,11 +217,17 @@ class _EditProfileState extends State<EditProfile> {
 
     if (response.statusCode == 200) {
       print(response.toString());
-      setState(() {
-        ServiceManager.profileURL = _image!.path;
-      });
+      if (_image != null) {
+        setState(() {
+          ServiceManager.profileURL = _image!.path;
+        });
+      }
+
       toastMessage(message: 'Profile Updated');
-      Navigator.pop(context);
+      ServiceManager().getUserData();
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => Home()), (route) => false);
+      //Navigator.pop(context);
     } else {
       toastMessage(message: 'Server Error');
     }
@@ -343,7 +352,9 @@ class _EditProfileState extends State<EditProfile> {
                           alignedDropdown: true,
                           child: DropdownButton(
                             borderRadius: BorderRadius.circular(10.0),
-                            value: genderValue != '' && genderValue.isNotEmpty ? genderValue : null,
+                            value: genderValue != '' && genderValue.isNotEmpty
+                                ? genderValue
+                                : null,
                             hint: const Text('Gender'),
                             items: genderList
                                 .map<DropdownMenuItem<String>>((String value) {

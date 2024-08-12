@@ -31,6 +31,7 @@ class _ProfileViewState extends State<ProfileView> {
   void initState() {
     super.initState();
     isLoading = true;
+     ServiceManager().getUserData();
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         isLoading = false;

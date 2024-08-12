@@ -250,6 +250,7 @@
 // }
 import 'package:astro_app/Home/bangLaCalender/utils/bangla_calender.dart';
 import 'package:astro_app/Home/bangLaCalender/utils/utils.dart';
+import 'package:astro_app/theme/style.dart';
 import 'package:flutter/material.dart';
 
 class BnglaCalanderPage extends StatefulWidget {
@@ -291,10 +292,11 @@ class _BnglaCalanderPageState extends State<BnglaCalanderPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bengali Calendar'),
-        backgroundColor: Colors.blue,
+        // title: const Text('Bengali Calendar'),
+        // backgroundColor: Colors.blue,
       ),
       body: Container(
+        decoration: kBackgroundDesign(context),
         height: MediaQuery.of(context).size.height - kToolbarHeight,
         child: Column(
           children: [
@@ -308,7 +310,7 @@ class _BnglaCalanderPageState extends State<BnglaCalanderPage> {
                     IconButton(
                         onPressed: () {
                           setState(() {
-                            if (monthIndex > 1) {
+                            if (monthIndex >= 1) {
                               monthIndex--;
                             }
                           });
@@ -340,11 +342,21 @@ class _BnglaCalanderPageState extends State<BnglaCalanderPage> {
                     ),
                     IconButton(
                         onPressed: () {
-                          setState(() {
-                            if (monthIndex < 12) {
+                          if(monthIndex==11)
+                          {
+                            null;
+                          }
+                          else
+                          {
+                            setState(() {
+                            if (monthIndex <= 11) {
+                              print(monthIndex);
                               monthIndex++;
                             }
                           });
+
+                          }
+                          
                         },
                         icon: const Icon(
                           Icons.arrow_forward_ios,
